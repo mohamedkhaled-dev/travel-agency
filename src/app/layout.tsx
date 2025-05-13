@@ -1,5 +1,4 @@
 import './globals.css';
-import { registerLicense } from '@syncfusion/ej2-base';
 import { Inter, Figtree } from 'next/font/google';
 
 // Define fonts with subsets and weights
@@ -17,10 +16,6 @@ const figtree = Figtree({
   weight: ['300', '400', '500', '600', '700', '800', '900'],
 });
 
-// Register Syncfusion license 
-if (process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE_KEY) {
-  registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE_KEY);
-}
 
 export const metadata = {
   title: 'Travel Agency App',

@@ -1,7 +1,15 @@
+import { Header } from "@/components";
+
 const AllUsersPage = () => {
   return (
-    <div>Uses Table</div>
-  )
-}
+    <main className="dashboard wrapper">
+      <Header
+        title="Trips Page"
+        description="Check out our current users in real time"
+      />
+      All Users Page Contents
+    </main>
+  );
+};
 
-export default AllUsersPage
+export default AllUsersPage;

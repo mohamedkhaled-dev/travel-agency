@@ -1,7 +1,17 @@
-const DashboardPage = () => {
-  return (
-    <div>DashboardPage</div>
-  )
-}
+import { Header } from "@/components";
 
-export default DashboardPage
+const DashboardPage = () => {
+  const user = { name: "David" };
+  return (
+    <main className="dashboard wrapper">
+      <Header
+        title={`Welcome ${user?.name ?? "Guest"} 👋🏻`}
+        description="Track activity, trends and popular destinations in real time"
+      />
+
+      Dashboard Page Content
+    </main>
+  );
+};
+
+export default DashboardPage;

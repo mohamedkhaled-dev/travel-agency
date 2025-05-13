@@ -1,4 +1,5 @@
-import type { AxisModel } from "@syncfusion/ej2-react-charts";
+// Removed Syncfusion import
+// import type { AxisModel } from "@syncfusion/ej2-react-charts";
 
 export const sidebarItems = [
   {
@@ -11,52 +12,53 @@ export const sidebarItems = [
     id: 3,
     icon: "/assets/icons/users.svg",
     label: "All Users",
-    href: "/all-users",
+    href: "/dashboard/all-users",
   },
   {
     id: 4,
     icon: "/assets/icons/itinerary.svg",
     label: "AI Trips",
-    href: "/trips",
+    href: "/dashboard/trips",
   },
 ];
 
-export const chartOneData: object[] = [
+// Refactored chart data for Recharts (used by shadcn/ui)
+export const chartOneData = [
   {
-    x: "Jan",
-    y1: 0.5,
-    y2: 1.5,
-    y3: 0.7,
+    name: "Jan",
+    series1: 0.5,
+    series2: 1.5,
+    series3: 0.7,
   },
   {
-    x: "Feb",
-    y1: 0.8,
-    y2: 1.2,
-    y3: 0.9,
+    name: "Feb",
+    series1: 0.8,
+    series2: 1.2,
+    series3: 0.9,
   },
   {
-    x: "Mar",
-    y1: 1.2,
-    y2: 1.8,
-    y3: 1.5,
+    name: "Mar",
+    series1: 1.2,
+    series2: 1.8,
+    series3: 1.5,
   },
   {
-    x: "Apr",
-    y1: 1.5,
-    y2: 2.0,
-    y3: 1.8,
+    name: "Apr",
+    series1: 1.5,
+    series2: 2.0,
+    series3: 1.8,
   },
   {
-    x: "May",
-    y1: 1.8,
-    y2: 2.5,
-    y3: 2.0,
+    name: "May",
+    series1: 1.8,
+    series2: 2.5,
+    series3: 2.0,
   },
   {
-    x: "Jun",
-    y1: 2.0,
-    y2: 2.8,
-    y3: 2.5,
+    name: "Jun",
+    series1: 2.0,
+    series2: 2.8,
+    series3: 2.5,
   },
 ];
 
@@ -101,25 +103,31 @@ export const comboBoxItems = {
   budget: budgetOptions,
 } as Record<keyof TripFormData, string[]>;
 
-export const userXAxis: AxisModel = { valueType: "Category", title: "Day" };
-export const useryAxis: AxisModel = {
-  minimum: 0,
-  maximum: 10,
-  interval: 2,
-  title: "Count",
+// Replaced Syncfusion specific axis models with more generic chart config
+export const userChartConfig = {
+  xAxis: {
+    dataKey: "name",
+    label: "Day",
+  },
+  yAxis: {
+    min: 0,
+    max: 10,
+    tickCount: 6,
+    label: "Count",
+  },
 };
 
-export const tripXAxis: AxisModel = {
-  valueType: "Category",
-  title: "Travel Styles",
-  majorGridLines: { width: 0 },
-};
-
-export const tripyAxis: AxisModel = {
-  minimum: 0,
-  maximum: 10,
-  interval: 2,
-  title: "Count",
+export const tripChartConfig = {
+  xAxis: {
+    dataKey: "name",
+    label: "Travel Styles",
+  },
+  yAxis: {
+    min: 0,
+    max: 10,
+    tickCount: 6,
+    label: "Count",
+  },
 };
 
 export const CONFETTI_SETTINGS = {
