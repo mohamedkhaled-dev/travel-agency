@@ -339,7 +339,7 @@
     }
   }
   .nav-items {
-    @apply flex flex-col px-6 h-full;
+    @apply flex flex-col px-6 h-full bg-white;
     .container {
       @apply flex flex-col justify-between h-full;
       nav {
