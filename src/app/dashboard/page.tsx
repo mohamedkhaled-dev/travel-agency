@@ -1,14 +1,17 @@
 import { Header, StatsCard, TripCard } from "@/components";
-import { dashboardStats, user, allTrips } from "@/constants";
+import { dashboardStats, allTrips } from "@/constants";
+import { getLoggedInUser } from "@/lib/server/appwrite";
 
 const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
   dashboardStats;
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  const user = await getLoggedInUser();
+
   return (
     <main className="dashboard wrapper">
       <Header
-        title={`Welcome ${user?.name ?? "Guest"} 👋🏻`}
+        title={`Welcome ${user?.name ?? "Admin"} 👋🏻`}
         description="Track activity, trends and popular destinations in real time"
       />
 

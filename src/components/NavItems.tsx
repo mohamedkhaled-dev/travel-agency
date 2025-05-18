@@ -1,20 +1,25 @@
 "use client";
 import { sidebarItems } from "@/constants";
+import { logoutUser } from "@/lib/server/appwrite";
 import { cn } from "@/lib/utils";
+import { User } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import UserAvatar from "./UserAvatar.tsx";
 
 interface NavItemsProps {
   handleClick?: () => void;
+  user: User;
 }
 
-const NavItems = ({ handleClick }: NavItemsProps) => {
+const NavItems = ({ handleClick, user }: NavItemsProps) => {
   const pathname = usePathname();
-  const user = {
-    name: "David Doe",
-    email: "contact@david.pro",
-    imageUrl: "/assets/images/david.webp",
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logoutUser();
+    router.replace("/sign-in");
   };
 
   return (
@@ -57,24 +62,14 @@ const NavItems = ({ handleClick }: NavItemsProps) => {
           })}
         </nav>
         <footer className="nav-footer">
-          <Image
-            width={40}
-            height={40}
-            src={user?.imageUrl || "/assets/images/david.webp"}
-            alt={user?.name || "David"}
-          />
+          <UserAvatar user={user} size={40} />
 
           <article>
             <h2>{user?.name}</h2>
             <p>{user?.email}</p>
           </article>
 
-          <button
-            className="cursor-pointer"
-            onClick={() => {
-              console.log({ message: "logout" });
-            }}
-          >
+          <button className="cursor-pointer" onClick={handleLogout}>
             <Image
               src="/assets/icons/logout.svg"
               alt="Logout"

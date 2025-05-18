@@ -4,8 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { NavItems } from "@/components";
 import { cn } from "@/lib/utils";
+import { User } from "@/types";
 
-const MobileSidebar = () => {
+type MobileSidebarProps = {
+  user: User;
+};
+
+const MobileSidebar = ({ user }: MobileSidebarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -44,7 +49,7 @@ const MobileSidebar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <NavItems handleClick={toggleSidebar} />
+        <NavItems user={user} handleClick={toggleSidebar} />
       </nav>
 
       {/* Backdrop */}

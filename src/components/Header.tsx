@@ -9,7 +9,6 @@ type Props = {
 
 const Header = ({ title, description }: Props) => {
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <header className="header">
