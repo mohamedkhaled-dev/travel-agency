@@ -7,8 +7,9 @@ import { OAuthProvider } from "node-appwrite";
 
 export async function loginWithGoogle() {
   const { account } = await createAdminClient();
+  const headerList = await headers();
 
-  const origin = (await headers()).get("origin");
+  const origin = headerList.get("origin");
 
   const redirectUrl = await account.createOAuth2Token(
     OAuthProvider.Google,

@@ -1,12 +1,14 @@
 import { Header, StatsCard, TripCard } from "@/components";
-import { dashboardStats, allTrips } from "@/constants";
-import { getLoggedInUser } from "@/lib/server/appwrite";
+import { allTrips, dashboardStats } from "@/constants";
+import { getUserFromAccount } from "@/lib/server/appwrite";
 
 const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
   dashboardStats;
 
 const DashboardPage = async () => {
-  const user = await getLoggedInUser();
+  const user = await getUserFromAccount();
+
+  console.log(user);
 
   return (
     <main className="dashboard wrapper">

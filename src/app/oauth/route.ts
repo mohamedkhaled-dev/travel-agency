@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   const maxAge = Math.floor((expireDate.getTime() - Date.now()) / 1000);
   cookieStore.set("session", session.secret, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: maxAge,

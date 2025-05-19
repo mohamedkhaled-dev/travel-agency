@@ -1,32 +1,26 @@
-import { MobileSidebar, NavItems } from "@/components";
-import {
-  getExistingUser,
-  getLoggedInUser,
-  storeUserData,
-} from "@/lib/server/appwrite";
-import { User } from "@/types";
 import { redirect } from "next/navigation";
+import { getUser } from "@/lib/server/appwrite";
+import { User } from "@/types";
+import { MobileSidebar, NavItems } from "@/components";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getLoggedInUser();
-  if (!user || !user.$id) redirect("/sign-in");
+  const existingUser = await getUser();
 
-  // If user exists and has role 'user', redirect to home
-  let existingUser = await getExistingUser(user.$id);
+  if (!existingUser) {
+    return redirect("/sign-in");
+  }
 
-  if (existingUser?.status === "user") {
+  if (existingUser.status === "user") {
     return redirect("/");
   }
 
   const userData: User = {
-    id: existingUser?.$id ?? "",
-    name: existingUser?.name,
-    email: existingUser?.email,
-    dateJoined: existingUser?.$createdAt ?? "",
-    imageUrl: existingUser?.imageUrl ?? "", // add img placeholder
+    id: existingUser.$id ?? "",
+    name: existingUser.name,
+    email: existingUser.email,
+    dateJoined: existingUser.joinedAt ?? "",
+    imageUrl: existingUser.imageUrl ?? "", // fallback to placeholder if needed
   };
-
-  console.log(userData);
 
   return (
     <div className="admin-layout">
@@ -37,7 +31,8 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       <aside className="w-full max-w-[270px] hidden lg:block">
         <NavItems user={userData} />
       </aside>
-      <aside className="children">{children}</aside>
+
+      <main className="children">{children}</main>
     </div>
   );
 };

@@ -1,8 +1,23 @@
 "use server";
-import { Client, Account, Databases, ID, Query, Storage } from "node-appwrite";
+
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import {
+  Account,
+  Client,
+  Databases,
+  ID,
+  Models,
+  Query,
+  Storage,
+} from "node-appwrite";
 
+interface GetAllUsersResult {
+  users: Models.Document[];
+  total: number;
+}
+
+// Utility to create session-based Appwrite client
 export async function createSessionClient() {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
@@ -10,9 +25,8 @@ export async function createSessionClient() {
 
   const cookieStore = await cookies();
   const session = cookieStore.get("session");
-  if (!session || !session.value) {
-    return;
-  }
+
+  if (!session?.value) return null;
 
   client.setSession(session.value);
 
@@ -29,6 +43,7 @@ export async function createSessionClient() {
   };
 }
 
+// Utility to create admin-based Appwrite client
 export async function createAdminClient() {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
@@ -48,58 +63,71 @@ export async function createAdminClient() {
   };
 }
 
-export async function getLoggedInUser() {
-  try {
-    const sessionClient = await createSessionClient();
-    if (!sessionClient) return null;
+// Get current logged-in user (from Appwrite)
+export async function getUserFromAccount() {
+  const sessionClient = await createSessionClient();
+  if (!sessionClient) return null;
 
-    const { account } = sessionClient;
-    return await account.get();
+  try {
+    return await sessionClient.account.get();
   } catch (error) {
+    console.error("Error fetching account user:", error);
     return null;
   }
 }
 
-export const getExistingUser = async (id: string) => {
+// Get extended user data from database
+export async function getUser() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return null;
 
-  const databases = sessionClient.database;
+  const { account, database } = sessionClient;
 
   try {
-    const result = await databases.listDocuments(
+    const appwriteUser = await account.get();
+    const result = await database.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
-      [Query.equal("accountId", id)]
+      [Query.equal("accountId", appwriteUser.$id)]
     );
 
-    return result.total > 0 ? result.documents[0] : null;
+    const dbUser = result.documents[0] || null;
+
+    return dbUser;
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching extended user:", error);
     return null;
   }
-};
+}
 
-export const storeUserData = async () => {
+// Store user data in DB if not exists
+export async function storeUserData() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return redirect("/sign-in");
 
-  const { account, database: databases } = sessionClient;
-
-  const user = await account.get();
+  const { account, database } = sessionClient;
 
   try {
-    const createdUser = await databases.createDocument(
+    const user = await account.get();
+
+    const existingUser = await database.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+      [Query.equal("accountId", user.$id)]
+    );
 
+    if (existingUser.total > 0) return existingUser.documents[0];
+
+    const createdUser = await database.createDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
       ID.unique(),
       {
         accountId: user.$id,
         email: user.email,
         name: user.name,
         joinedAt: new Date().toISOString(),
-        imageUrl: "",
+        imageUrl: "", // Store here later the uploaded image from the user
       }
     );
 
@@ -110,41 +138,40 @@ export const storeUserData = async () => {
     console.error("Error storing user data:", error);
     return null;
   }
-};
+}
 
-export const logoutUser = async () => {
+// Logout user
+export async function logoutUser() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return;
 
   await sessionClient.account.deleteSession("current");
 
-  // Clear session cookie
   const cookieStore = await cookies();
   cookieStore.delete("session");
 
   return { success: true };
-};
+}
 
-export const getUser = async () => {
+// Fetch all users (admin only)
+export async function getAllUsers(
+  limit: number,
+  offset: number
+): Promise<GetAllUsersResult | null> {
   const sessionClient = await createSessionClient();
-  if (!sessionClient) return redirect("/sign-in");
-
-  const { account, database: databases } = sessionClient;
-  const user = await account.get();
+  if (!sessionClient) return null;
 
   try {
-    const result = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
-      [
-        Query.equal("accountId", user.$id),
-        Query.select(["name", "email", "imageUrl", "joinedAt", "accountId"]),
-      ]
-    );
+    const { documents: users, total } =
+      await sessionClient.database.listDocuments(
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+        process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+        [Query.limit(limit), Query.offset(offset)]
+      );
 
-    return result.total > 0 ? result.documents[0] : null;
-  } catch (error) {
-    console.error("Error fetching user:", error);
+    return { users, total };
+  } catch (e) {
+    console.error("Error fetching users:", e);
     return null;
   }
-};
+}

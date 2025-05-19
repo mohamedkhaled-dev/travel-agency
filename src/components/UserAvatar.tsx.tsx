@@ -1,13 +1,12 @@
 import Image from "next/image";
-import { User } from "@/types";
+import { Models } from "node-appwrite";
 
 interface UserAvatarProps {
-  user: User;
+  user: Models.Document;
   size?: number;
-  className?: string;
 }
 
-export const UserAvatar = ({ user, size, className }: UserAvatarProps) => {
+export const UserAvatar = ({ user, size }: UserAvatarProps) => {
   // Using user's email or name as the seed ensures the same user always gets the same avatar
   const seed = user?.email || user?.name || "anonymous";
 
@@ -20,7 +19,7 @@ export const UserAvatar = ({ user, size, className }: UserAvatarProps) => {
   )}&backgroundColor=256FF1`;
 
   return (
-    <div className={`relative size-[${size}px] ${className}`}>
+    <div className={`relative size-[${size}px]`}>
       <Image
         src={avatarUrl}
         alt={user?.name || "User"}

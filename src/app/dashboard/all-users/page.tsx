@@ -1,13 +1,19 @@
 import { Header } from "@/components";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
+import { getAllUsers } from "@/lib/server/appwrite";
 
-const AllUsersPage = () => {
+const AllUsersPage = async () => {
+  const result = await getAllUsers(10, 0);
+  const { users = [], total = 0 } = result || {};
+
   return (
-    <main className="dashboard wrapper">
+    <main className="all-users wrapper">
       <Header
-        title="Trips Page"
-        description="Check out our current users in real time"
+        title="Manage Users"
+        description="Filter, sort, and access detailed user profiles"
       />
-      All Users Page Contents
+      <DataTable columns={columns} data={users} />
     </main>
   );
 };
