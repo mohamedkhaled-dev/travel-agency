@@ -1,29 +1,36 @@
 import { redirect } from "next/navigation";
-import { getUser } from "@/lib/server/appwrite";
+import { getUser, logoutUser } from "@/lib/server/appwrite";
 import { User } from "@/types";
 import { MobileSidebar, NavItems } from "@/components";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
-  const existingUser = await getUser();
+  let userData: User;
 
-  if (!existingUser) {
+  try {
+    const existingUser = await getUser();
+
+    if (!existingUser) {
+      return redirect("/sign-in");
+    }
+
+    if (existingUser.status === "user") {
+      return redirect("/");
+    }
+
+    userData = {
+      id: existingUser.$id ?? "",
+      name: existingUser.name,
+      email: existingUser.email,
+      dateJoined: existingUser.joinedAt ?? "",
+      imageUrl: existingUser.imageUrl ?? "", 
+    };
+  } catch (error) {
+    await logoutUser();
     return redirect("/sign-in");
   }
 
-  if (existingUser.status === "user") {
-    return redirect("/");
-  }
-
-  const userData: User = {
-    id: existingUser.$id ?? "",
-    name: existingUser.name,
-    email: existingUser.email,
-    dateJoined: existingUser.joinedAt ?? "",
-    imageUrl: existingUser.imageUrl ?? "", // fallback to placeholder if needed
-  };
-
   return (
-    <div className="admin-layout">
+    <div className="admin-layout overflow-y-hidden">
       {/* Mobile Sidebar */}
       <MobileSidebar user={userData} />
 
@@ -32,7 +39,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
         <NavItems user={userData} />
       </aside>
 
-      <main className="children">{children}</main>
+      <main className="children overflow-y-auto">{children}</main>
     </div>
   );
 };

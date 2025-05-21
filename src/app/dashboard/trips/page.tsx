@@ -1,9 +1,16 @@
-import React from 'react'
+import { Header } from "@/components";
 
 const TripsPage = () => {
   return (
-    <div>TripsPage</div>
-  )
-}
+    <main className="all-users wrapper">
+      <Header
+        ctaText="Create a trip"
+        ctaUrl="/dashboard/trips/create"
+        title="Trips "
+        description="View and edit AI-generated travel plans"
+      />
+    </main>
+  );
+};
 
-export default TripsPage
+export default TripsPage;

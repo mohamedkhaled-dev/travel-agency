@@ -1,13 +1,17 @@
 "use client";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type Props = {
+  ctaText?: string;
+  ctaUrl?: string;
   title: string;
   description: string;
 };
 
-const Header = ({ title, description }: Props) => {
+const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -34,6 +38,25 @@ const Header = ({ title, description }: Props) => {
           {description}
         </p>
       </article>
+
+      {ctaText && ctaUrl && (
+        <Link href={ctaUrl}>
+          <button
+            type="button"
+            className="button-class  h-11 w-full md:w-[240px] text-white "
+          >
+            <Image
+              width={20}
+              height={20}
+              src={"/assets/icons/plus.svg"}
+              alt="plus"
+              className="size-5"
+            />
+
+            <span className="p-16-semibold">{ctaText}</span>
+          </button>
+        </Link>
+      )}
     </header>
   );
 };

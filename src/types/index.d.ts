@@ -15,6 +15,8 @@ export type User = BaseUser;
 
 export interface Country {
   name: string;
+  flag: string;
+  alt: string;
   coordinates: [number, number];
   value: string;
   openStreetMap?: string;
@@ -155,4 +157,17 @@ export interface TripFormData {
   budget: string;
   duration: number;
   groupType: string;
+}
+
+export interface CountryData {
+  name: { common: string };
+  flags: {
+    png: string;
+    svg: string;
+    alt: string;
+  };
+  latlng: number[];
+  maps: {
+    openStreetMaps: string;
+  };
 }
