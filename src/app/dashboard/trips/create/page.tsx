@@ -2,16 +2,17 @@
 
 import { ComboBox, Header, WorldMap } from "@/components";
 import { comboBoxItems, selectItems } from "@/constants";
-import { getUserFromAccount } from "@/lib/server/appwrite";
 import { formatKey } from "@/lib/utils";
 import { Country, CountryData, TripFormData } from "@/types";
 import { Loader, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CreateTripPage = () => {
   const [countries, setCountries] = useState<Country[]>([]);
+  const router = useRouter();
   const [formData, setFormData] = useState<TripFormData>({
-    country: countries[0]?.name || "",
+    country: "",
     travelStyle: "",
     interest: "",
     budget: "",
@@ -25,7 +26,7 @@ const CreateTripPage = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
+        const response = await fetch("https://restcountries.com/v3.1/all ");
         const data = await response.json();
         setCountries(
           data.map((country: CountryData) => ({
@@ -52,7 +53,6 @@ const CreateTripPage = () => {
     alt: country.alt,
   }));
 
-  // Prepare data for the WorldMap component
   const mapData = [
     {
       countryName: formData.country,
@@ -86,23 +86,35 @@ const CreateTripPage = () => {
       return;
     }
 
-    const user = await getUserFromAccount();
-    if (!user?.$id) {
-      console.error("User not authenticated");
-      setLoading(false);
-      return;
-    }
-
     try {
-      console.log("user", user);
-      console.log("formData", formData);
-      setError(null);
+      const response = await fetch("/api/create-trip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          country: formData.country,
+          numberOfDays: formData.duration,
+          travelStyle: formData.travelStyle,
+          interests: formData.interest,
+          budget: formData.budget,
+          groupType: formData.groupType,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.id) {
+        router.push(`/dashboard/trips/${result.id}`);
+      } else {
+        throw new Error("Failed to create trip");
+      }
     } catch (e) {
       console.error("Error generating trip", e);
+      setError("Failed to generate trip. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
   const handleChange = (key: keyof TripFormData, value: string | number) => {
     setFormData({ ...formData, [key]: value });
   };
@@ -113,9 +125,9 @@ const CreateTripPage = () => {
         title="Add a New Trip"
         description="View and edit AI Generated travel plans"
       />
-
       <section className="mt-2.5 wrapper-md">
         <form onSubmit={handleSubmit} className="trip-form">
+          {/* Form fields */}
           <div>
             <label htmlFor="country">Country</label>
             <ComboBox
@@ -133,9 +145,10 @@ const CreateTripPage = () => {
               name="duration"
               type="number"
               min={1}
+              max={10}
               placeholder="Enter a number of days"
               className="form-input placeholder:text-gray-100"
-              onChange={(e) => handleChange("duration", e.target.value)}
+              onChange={(e) => handleChange("duration", Number(e.target.value))}
             />
           </div>
 
@@ -182,7 +195,6 @@ const CreateTripPage = () => {
               ) : (
                 <Sparkles className="size-5 text-white" />
               )}
-
               <span className="p-16-semibold text-white">
                 {loading ? "Generating..." : "Generate Trip"}
               </span>
@@ -193,4 +205,5 @@ const CreateTripPage = () => {
     </main>
   );
 };
+
 export default CreateTripPage;

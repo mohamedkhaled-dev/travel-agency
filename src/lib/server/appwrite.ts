@@ -17,7 +17,10 @@ interface GetAllUsersResult {
   total: number;
 }
 
-// Utility to create session-based Appwrite client
+/**
+ * Creates a session-based Appwrite client.
+ * Returns null if no session exists.
+ */
 export async function createSessionClient() {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
@@ -43,7 +46,10 @@ export async function createSessionClient() {
   };
 }
 
-// Utility to create admin-based Appwrite client
+/**
+ * Creates an admin-based Appwrite client using the secret API key.
+ * Should only be used in secure server contexts.
+ */
 export async function createAdminClient() {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
@@ -63,20 +69,31 @@ export async function createAdminClient() {
   };
 }
 
-// Get current logged-in user (from Appwrite)
+/**
+ * Fetches the currently logged-in user's basic info.
+ */
 export async function getUserFromAccount() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return null;
 
   try {
-    return await sessionClient.account.get();
+    const user = await sessionClient.account.get();
+
+    return {
+      id: user.$id,
+      email: user.email,
+      name: user.name || "",
+    };
   } catch (error) {
     console.error("Error fetching account user:", error);
     return null;
   }
 }
 
-// Get extended user data from database
+/**
+ * Fetches extended user data from the database.
+ * Returns null if user or DB record doesn't exist.
+ */
 export async function getUser() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return null;
@@ -85,6 +102,7 @@ export async function getUser() {
 
   try {
     const appwriteUser = await account.get();
+
     const result = await database.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
@@ -100,7 +118,9 @@ export async function getUser() {
   }
 }
 
-// Store user data in DB if not exists
+/**
+ * Stores user data in the database if it doesn't already exist.
+ */
 export async function storeUserData() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return redirect("/sign-in");
@@ -127,7 +147,7 @@ export async function storeUserData() {
         email: user.email,
         name: user.name,
         joinedAt: new Date().toISOString(),
-        imageUrl: "", // Store here later the uploaded image from the user
+        imageUrl: "", // Will update later when user uploads image
       }
     );
 
@@ -140,7 +160,9 @@ export async function storeUserData() {
   }
 }
 
-// Logout user
+/**
+ * Logs out the current user and clears session cookie.
+ */
 export async function logoutUser() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return;
@@ -153,7 +175,9 @@ export async function logoutUser() {
   return { success: true };
 }
 
-// Fetch all users (admin only)
+/**
+ * Fetches list of all users (admin-only).
+ */
 export async function getAllUsers(
   limit: number,
   offset: number
