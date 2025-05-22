@@ -22,13 +22,12 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       name: existingUser.name,
       email: existingUser.email,
       dateJoined: existingUser.joinedAt ?? "",
-      imageUrl: existingUser.imageUrl ?? "", 
+      imageUrl: existingUser.imageUrl ?? "",
     };
   } catch (error) {
-    await logoutUser();
+    // If something goes wrong fetching user
     return redirect("/sign-in");
   }
-
   return (
     <div className="admin-layout overflow-y-hidden">
       {/* Mobile Sidebar */}

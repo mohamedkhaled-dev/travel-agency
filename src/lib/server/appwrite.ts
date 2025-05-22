@@ -167,7 +167,15 @@ export async function logoutUser() {
   const sessionClient = await createSessionClient();
   if (!sessionClient) return;
 
-  await sessionClient.account.deleteSession("current");
+  try {
+    // Only try to delete session if the user is authenticated
+    const account = await sessionClient.account.get();
+    if (account) {
+      await sessionClient.account.deleteSession("current");
+    }
+  } catch (error) {
+    console.warn("No valid session found during logout.");
+  }
 
   const cookieStore = await cookies();
   cookieStore.delete("session");

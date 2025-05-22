@@ -7,3 +7,4 @@ export { default as TripCard } from "./TripCard";
 export { default as UserAvatar } from "./UserAvatar.tsx";
 export { default as ComboBox } from "./ComboBox";
 export {default as WorldMap} from"./WorldMap"
+export {default as InfoPill} from"./InfoPill"

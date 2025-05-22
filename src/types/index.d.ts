@@ -57,6 +57,23 @@ export interface Location {
   openStreetMap: string;
 }
 
+export interface Location {
+  city: string;
+  coordinates: number[];
+  openStreetMap: string;
+}
+
+export interface Activity {
+  time: string;
+  description: string;
+}
+
+export interface DayPlan {
+  day: number;
+  location: string;
+  activities: Activity[];
+}
+
 export interface Trip {
   id: string;
   name: string;
@@ -73,7 +90,7 @@ export interface Trip {
   bestTimeToVisit: string[];
   weatherInfo: string[];
   location: Location;
-  payment_link: string;
+  payment_link: string | null; 
 }
 
 export interface TripCardProps {
