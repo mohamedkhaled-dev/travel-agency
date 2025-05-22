@@ -21,7 +21,7 @@ const TripCard = ({
       href={
         pathname === "/" || pathname.startsWith("/travel")
           ? `/travel${id}`
-          : `/trips/${id}`
+          : `/dashboard/trips/${id}`
       }
     >
       <Image width={600} height={160} src={imageUrl} alt={name} />
@@ -44,7 +44,9 @@ const TripCard = ({
           <Badge
             key={index}
             className={cn(
-              index === 1 ? "!bg-pink-50 !text-pink-500" : "!bg-success-50 !text-success-700"
+              index === 1
+                ? "!bg-pink-50 !text-pink-500"
+                : "!bg-success-50 !text-success-700"
             )}
           >
             {getFirstWord(tag)}

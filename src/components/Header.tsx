@@ -43,7 +43,7 @@ const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
         <Link href={ctaUrl}>
           <button
             type="button"
-            className="button-class  h-11 w-full md:w-[240px] text-white "
+            className="button-class h-11 w-full md:w-[180px] text-white block"
           >
             <Image
               width={20}

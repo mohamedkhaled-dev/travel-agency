@@ -6,7 +6,7 @@ export const getAllTrips = async (limit: number, offset: number) => {
   const allTrips = await sessionClient?.database.listDocuments(
     process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
     process.env.NEXT_PUBLIC_APPWRITE_TRIPS_COLLECTION_ID!,
-    [(Query.limit(limit), Query.offset(offset), Query.orderDesc("createdAt"))]
+    [Query.limit(limit), Query.offset(offset), Query.orderDesc("createdAt")]
   );
 
   if (allTrips?.total === 0) {

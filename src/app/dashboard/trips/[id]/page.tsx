@@ -33,11 +33,13 @@ const TripDetailPage = async ({ params }: TripDetailPageProps) => {
       allTripsResponse?.allTrips &&
       Array.isArray(allTripsResponse.allTrips)
     ) {
-      allTripsData = allTripsResponse.allTrips.map((trip) => ({
-        id: trip.$id,
-        ...parseTripData(trip.tripDetails),
-        imageUrls: trip.imageUrls || [],
-      })) as Trip[];
+      allTripsData = allTripsResponse.allTrips.map(
+        ({ $id, tripDetails, imageUrls }) => ({
+          id: $id,
+          ...parseTripData(tripDetails),
+          imageUrls: imageUrls || [],
+        })
+      ) as Trip[];
     }
   } catch (error) {
     console.error("Error fetching or parsing trip data:", error);
