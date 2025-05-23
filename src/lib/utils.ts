@@ -69,3 +69,20 @@ export const formatKey = (key: keyof TripFormData) => {
     .replace(/([A-Z])/g, " $1")
     .replace(/^./, (str) => str.toUpperCase());
 };
+
+export const getMonthNames = (
+  currentMonth: number,
+  lastMonth: number
+): { label: string; value: number }[] => {
+  const now = new Date();
+  const currentMonthName = now.toLocaleString("default", { month: "long" });
+  const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const prevMonthName = prevMonthDate.toLocaleString("default", {
+    month: "long",
+  });
+
+  return [
+    { label: prevMonthName, value: lastMonth },
+    { label: currentMonthName, value: currentMonth },
+  ];
+};

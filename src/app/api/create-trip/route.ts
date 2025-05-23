@@ -81,7 +81,10 @@ export async function POST(request: NextRequest) {
 
     const imageUrls = (await imageResponse.json()).results
       .slice(0, 3)
-      .map((result: any) => result.urls?.regular || null);
+      .map((result: unknown) => {
+        const r = result as { urls?: { regular?: string } };
+        return r.urls?.regular || null;
+      });
 
     const sessionClient = await createSessionClient();
     if (!sessionClient) {

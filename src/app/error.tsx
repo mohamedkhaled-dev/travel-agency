@@ -14,7 +14,7 @@ export default function Error({
     console.error(error);
   }, [error]);
 
-  let message = "Oops!";
+  const message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
 

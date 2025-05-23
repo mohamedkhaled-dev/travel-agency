@@ -5,7 +5,7 @@ import { getAllUsers } from "@/lib/server/appwrite";
 
 const AllUsersPage = async () => {
   const result = await getAllUsers(10, 0);
-  const { users = [], total = 0 } = result || {};
+  const { users = []} = result || {};
 
   return (
     <main className="all-users wrapper">

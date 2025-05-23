@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/lib/server/appwrite";
+import { createAdminClient, storeUserData } from "@/lib/server/appwrite";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
   const { account } = await createAdminClient();
   const session = await account.createSession(userId, secret);
 
+  // Store user data in the database
   console.log("Appwrite Session:", session);
 
   const cookieStore = await cookies();
@@ -17,10 +18,11 @@ export async function GET(request: NextRequest) {
   cookieStore.set("session", session.secret, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/",
     maxAge: maxAge,
   });
 
+  await storeUserData();
   return NextResponse.redirect(`${request.nextUrl.origin}`);
 }

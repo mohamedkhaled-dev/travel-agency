@@ -5,13 +5,12 @@ import { cn, getFirstWord, parseTripData } from "@/lib/utils";
 import { Trip } from "@/types";
 import { Star } from "lucide-react";
 import Image from "next/image";
-type TripDetailPageProps = {
-  params: {
-    id: string;
-  };
-};
 
-const TripDetailPage = async ({ params }: TripDetailPageProps) => {
+export default async function TripDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   let tripData: Trip | null = null;
   let allTripsData: Trip[] = [];
@@ -187,7 +186,7 @@ const TripDetailPage = async ({ params }: TripDetailPageProps) => {
           ))}
         </ul>
 
-        {visitTimeAndWeatherInfo.map((section, i) => (
+        {visitTimeAndWeatherInfo.map((section) => (
           <section key={section.title} className="visit">
             <div>
               <h3>{section.title}</h3>
@@ -231,6 +230,4 @@ const TripDetailPage = async ({ params }: TripDetailPageProps) => {
       </section>
     </main>
   );
-};
-
-export default TripDetailPage;
+}

@@ -2,7 +2,7 @@
 import { sidebarItems } from "@/constants";
 import { logoutUser } from "@/lib/server/appwrite";
 import { cn } from "@/lib/utils";
-import { User } from "@/types";
+import { User } from "@/types/index.js";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

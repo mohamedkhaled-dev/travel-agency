@@ -11,13 +11,20 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 
-interface WorldMapProps {
+type WorldMapProps = {
   mapData: {
     countryName: string;
     coordinates: number[];
     color: string;
   }[];
 }
+
+type GeographyFeature = {
+  rsmKey: string;
+  properties: {
+    name: string;
+  };
+};
 
 const WorldMap = ({ mapData }: WorldMapProps) => {
   return (
@@ -30,7 +37,7 @@ const WorldMap = ({ mapData }: WorldMapProps) => {
       <ZoomableGroup center={[5, 10]} minZoom={1} maxZoom={8}>
         <Geographies geography={geoData}>
           {({ geographies }) =>
-            geographies.map((geo: any) => {
+            geographies.map((geo: GeographyFeature) => {
               const countryName = geo.properties.name;
               const selectedCountry = mapData.find(
                 (data) => data.countryName === countryName

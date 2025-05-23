@@ -1,13 +1,19 @@
 import { calculateTrendPercentage, cn } from "@/lib/utils";
 import type { StatsCard as StatsCardProps } from "@/types";
 import Image from "next/image";
+import StatsLineChart from "./StatsLineChart";
+
+type Props = StatsCardProps & {
+  chartData: { label: string; value: number }[];
+};
 
 const StatsCard = ({
   headerTitle,
   total,
   lastMonthCount,
   currentMonthCount,
-}: StatsCardProps) => {
+  chartData,
+}: Props) => {
   const { trend, percentage } = calculateTrendPercentage(
     currentMonthCount,
     lastMonthCount
@@ -21,7 +27,7 @@ const StatsCard = ({
       <div className="content">
         <div className="flex flex-col gap-4">
           <h2 className="text-4xl font-semibold">{total}</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-start flex-col gap-2">
             <figure className="flex items-center gap-1">
               <Image
                 width={20}
@@ -46,15 +52,10 @@ const StatsCard = ({
             </p>
           </div>
         </div>
-        {/* Replace this with a chart */}
-        <Image
-         className="xl:w-32 w-full h-full md:h-32 xl:h-full"
-          width={60}
-          height={60}
-          src={`/assets/icons/${
-            isDecrement ? "decrement.svg" : "increment.svg"
-          }`}
-          alt="chart"
+
+        <StatsLineChart
+          data={chartData}
+          color={isDecrement ? "#EF4444" : "#10B981"}
         />
       </div>
     </article>

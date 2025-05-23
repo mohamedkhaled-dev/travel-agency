@@ -18,8 +18,6 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 
-
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -44,7 +42,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md shadow-sm">
-      <Table>
+      <Table className="bg-white ">
         <TableHeader className="bg-gray-50">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="border-transparent">
@@ -70,7 +68,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="border-transparent  hover:bg-light-300"
+                className="border-transparent  hover:bg-gray-50"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="py-3 px-4 text-sm">

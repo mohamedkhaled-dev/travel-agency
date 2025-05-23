@@ -7,7 +7,7 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  let message = "Oops!";
+  const message = "Oops!";
   let details = "A critical error occurred.";
   let stack: string | undefined;
 

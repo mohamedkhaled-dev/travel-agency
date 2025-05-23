@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import {
   Account,
   Client,
@@ -123,12 +122,16 @@ export async function getUser() {
  */
 export async function storeUserData() {
   const sessionClient = await createSessionClient();
-  if (!sessionClient) return redirect("/sign-in");
+  if (!sessionClient) {
+    console.error("No session client available.");
+    return null;
+  }
 
   const { account, database } = sessionClient;
 
   try {
     const user = await account.get();
+    console.log("Logged-in user:", user);
 
     const existingUser = await database.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
@@ -136,7 +139,10 @@ export async function storeUserData() {
       [Query.equal("accountId", user.$id)]
     );
 
-    if (existingUser.total > 0) return existingUser.documents[0];
+    if (existingUser.total > 0) {
+      console.log("User already exists in DB");
+      return existingUser.documents[0];
+    }
 
     const createdUser = await database.createDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
@@ -145,14 +151,13 @@ export async function storeUserData() {
       {
         accountId: user.$id,
         email: user.email,
-        name: user.name,
+        name: user.name || "",
         joinedAt: new Date().toISOString(),
-        imageUrl: "", // Will update later when user uploads image
+        imageUrl: "",
       }
     );
 
-    if (!createdUser.$id) return redirect("/sign-in");
-
+    console.log("Created user in DB:", createdUser);
     return createdUser;
   } catch (error) {
     console.error("Error storing user data:", error);
@@ -173,8 +178,8 @@ export async function logoutUser() {
     if (account) {
       await sessionClient.account.deleteSession("current");
     }
-  } catch (error) {
-    console.warn("No valid session found during logout.");
+  } catch (e) {
+    console.warn("No valid session found during logout.", e);
   }
 
   const cookieStore = await cookies();

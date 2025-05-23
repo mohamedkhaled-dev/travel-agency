@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
-import { getUser, logoutUser } from "@/lib/server/appwrite";
-import { User } from "@/types";
 import { MobileSidebar, NavItems } from "@/components";
+import { getUser } from "@/lib/server/appwrite";
+import { User } from "@/types";
+import { redirect } from "next/navigation";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   let userData: User;
@@ -24,8 +24,9 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       dateJoined: existingUser.joinedAt ?? "",
       imageUrl: existingUser.imageUrl ?? "",
     };
-  } catch (error) {
-    // If something goes wrong fetching user
+  } catch (e) {
+    console.log("User not found", e);
+    
     return redirect("/sign-in");
   }
   return (

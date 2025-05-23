@@ -1,8 +1,8 @@
+import { User } from "@/types";
 import Image from "next/image";
-import { Models } from "node-appwrite";
 
 interface UserAvatarProps {
-  user: Models.Document;
+  user: User;
   size?: number;
 }
 

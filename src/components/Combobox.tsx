@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export type ComboboxItem = {
   text: string;
@@ -57,9 +58,10 @@ const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
             value ? (
               <div className="flex flex-row items-center ps-2">
                 {selectedItem?.flag && (
-                  <img
+                  <Image
                     src={selectedItem.flag}
-                    alt={selectedItem.alt}
+                    alt={selectedItem.alt as string}
+                    width={24}
                     className="w-6 h-auto me-1"
                   />
                 )}
@@ -91,9 +93,10 @@ const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
                     )}
                   />
                   {item.flag && (
-                    <img
+                    <Image
                       src={item.flag}
-                      alt={item.alt}
+                      alt={item.alt as string}
+                      width={24}
                       className="w-6 h-auto me-2"
                     />
                   )}
