@@ -14,9 +14,9 @@
   --color-gray-200: #eaecf0;
   --color-gray-500: #667085;
   --color-gray-700: #344054;
-  --color-primary-50: #e9f3fb;
-  --color-primary-100: #256ff1;
-  --color-primary-500: #175cd3;
+  --color-primary-50: #e6f9fa;
+  --color-primary-100: #2d9fa4;
+  --color-primary-500: #178a94;
   --color-light-100: #ecf2ef;
   --color-light-200: #f9fbfc;
   --color-light-300: #f2f4f7;
@@ -34,7 +34,7 @@
   --color-red-100: #ff543d;
 
   --background-image-auth: url("/assets/images/auth-img.webp");
-  --background-image-hero: url("/assets/images/hero-img.png");
+  --background-image-hero: url("/assets/images/hero-img.webp");
   --background-image-card-1: url("/assets/images/card-img-1.png");
   --background-image-card-2: url("/assets/images/card-img-2.png");
   --background-image-card-3: url("/assets/images/card-img-3.png");
@@ -351,7 +351,7 @@
   .admin-layout {
     @apply flex flex-col lg:flex-row h-screen w-full;
     .children {
-      @apply w-full h-full bg-light-200 pt-12 lg:pt-10;
+      @apply w-full h-full bg-light-200 pt-12 pb-6 lg:pt-10 lg:pb-5;
     }
   }
   .user-trip {

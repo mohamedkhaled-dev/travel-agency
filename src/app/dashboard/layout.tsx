@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { MobileSidebar, NavItems } from "@/components";
 import { getUser } from "@/lib/server/appwrite";
 import { User } from "@/types";
@@ -26,7 +27,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     };
   } catch (e) {
     console.log("User not found", e);
-    
+
     return redirect("/sign-in");
   }
   return (

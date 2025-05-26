@@ -3,8 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { getAllTrips, getTripById } from "@/lib/trips";
 import { cn, getFirstWord, parseTripData } from "@/lib/utils";
 import { Trip } from "@/types";
-import { Calendar, CloudSun, Star } from "lucide-react";
+import { ArrowLeft, Calendar, CloudSun, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function TripDetailPage({
   params,
@@ -68,11 +69,20 @@ export default async function TripDetailPage({
 
   // Replace your current return statement with this:
   return (
-    <main className="travel-detail wrapper my-6">
-      <Header
-        title="Trip Details"
-        description="View and edit AI-generated travel plans"
-      />
+    <main className="travel-detail wrapper my-6 py-10">
+      <div className="flex items-center gap-4 mb-2">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+        >
+          <ArrowLeft className="size-5" />
+          <span className="text-sm font-medium">Back</span>
+        </Link>
+      </div>
+              <Header
+          title="Trip Details"
+          description="View and edit AI-generated travel plans"
+        />
 
       <section className="container wrapper space-y-4">
         {/* Header Section */}

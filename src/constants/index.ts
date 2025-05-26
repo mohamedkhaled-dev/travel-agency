@@ -4,26 +4,6 @@
 import { formatDate } from "@/lib/utils";
 import { TripFormData } from "@/types";
 
-export const sidebarItems = [
-  {
-    id: 1,
-    icon: "/assets/icons/home.svg",
-    label: "Dashboard",
-    href: "/dashboard",
-  },
-  {
-    id: 3,
-    icon: "/assets/icons/users.svg",
-    label: "All Users",
-    href: "/dashboard/all-users",
-  },
-  {
-    id: 4,
-    icon: "/assets/icons/itinerary.svg",
-    label: "AI Trips",
-    href: "/dashboard/trips",
-  },
-];
 
 // Refactored chart data for Recharts (used by shadcn/ui)
 export const chartOneData = [

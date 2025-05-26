@@ -1,10 +1,10 @@
-"use client";
+"use client"
+import { cn, getFirstWord } from "@/lib/utils";
 import { TripCardProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Badge } from "./ui/badge";
-import { cn, getFirstWord } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 const TripCard = ({
   id,
@@ -17,10 +17,10 @@ const TripCard = ({
   const pathname = usePathname();
   return (
     <Link
-      className="trip-card"
+      className="trip-card hover:-translate-y-1 transition duration-200 "
       href={
         pathname === "/" || pathname.startsWith("/travel")
-          ? `/travel${id}`
+          ? `/travel/${id}`
           : `/dashboard/trips/${id}`
       }
     >
@@ -49,7 +49,7 @@ const TripCard = ({
                 : "!bg-success-50 !text-success-700"
             )}
           >
-            {getFirstWord(tag)}
+            {tag && getFirstWord(tag ?? "Shopping")}
           </Badge>
         ))}
       </div>

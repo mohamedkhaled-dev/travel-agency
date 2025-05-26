@@ -60,8 +60,9 @@ const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
                 {selectedItem?.flag && (
                   <Image
                     src={selectedItem.flag}
-                    alt={selectedItem.alt as string}
+                    alt={"flag"}
                     width={24}
+                    height={24}
                     className="w-6 h-auto me-1"
                   />
                 )}
@@ -95,8 +96,9 @@ const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
                   {item.flag && (
                     <Image
                       src={item.flag}
-                      alt={item.alt as string}
+                      alt={"flag"}
                       width={24}
+                      height={24}
                       className="w-6 h-auto me-2"
                     />
                   )}

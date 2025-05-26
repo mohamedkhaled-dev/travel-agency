@@ -33,7 +33,6 @@ const TripsPage = async ({
         imageUrls: imageUrls || [],
       })) as Trip[];
       totalTrips = total || 0;
-      console.log("allTripsData length:", allTripsData.length);
     } else {
       console.warn("No trips found or invalid response format");
     }
@@ -96,7 +95,7 @@ const TripsPage = async ({
                 className={
                   currentPage <= 1
                     ? "pointer-events-none cursor-not-allowed opacity-50"
-                    : ""
+                    : "hover:bg-primary-100 hover:text-white"
                 }
                 aria-disabled={currentPage <= 1}
               />
@@ -110,7 +109,9 @@ const TripsPage = async ({
                     href={`/dashboard/trips?page=${pageNum}`}
                     isActive={pageNum === currentPage}
                     className={
-                      pageNum === currentPage ? "bg-primary-500 text-white" : ""
+                      pageNum === currentPage
+                        ? "bg-primary-500 text-white "
+                        : "hover:bg-primary-100 hover:text-white"
                     }
                   >
                     {pageNum}
@@ -125,7 +126,7 @@ const TripsPage = async ({
                 className={
                   currentPage >= totalPages
                     ? "pointer-events-none cursor-not-allowed opacity-50"
-                    : ""
+                    : "hover:bg-primary-100 hover:text-white"
                 }
                 aria-disabled={currentPage >= totalPages}
               />

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import {
   Header,
   StatsCard,
@@ -59,7 +60,7 @@ const DashboardPage = async () => {
   return (
     <main className="dashboard wrapper overflow-x-hidden">
       <Header
-        title={`Welcome ${users?.name ?? "Admin"} 👋🏻`}
+        title={`Welcome ${users?.name ?? "Admin"} `}
         description="Track activity, trends and popular destinations in real time"
       />
 

@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
 import { TrendResult, Trip, TripFormData } from "@/types";
+import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,7 +40,7 @@ export function parseTripData(jsonString: string): Trip | null {
 }
 
 export function getFirstWord(input: string = ""): string {
-  return input.trim().split(/\s+/)[0] || "";
+  return input?.trim().split(/\s+/)[0] || "";
 }
 
 export const calculateTrendPercentage = (
@@ -85,4 +86,55 @@ export const getMonthNames = (
     { label: prevMonthName, value: lastMonth },
     { label: currentMonthName, value: currentMonth },
   ];
+};
+
+let toastInterval: NodeJS.Timeout | null = null;
+let currentToastId: string | number | null = null;
+
+const loadingMessages = [
+  {
+    title: "AI is working...",
+    description: "Fetching your destination data.",
+  },
+  {
+    title: "Almost there!",
+    description: "Crafting your perfect itinerary.",
+  },
+  {
+    title: "Finalizing plan",
+    description: "Your personalized trip is almost ready!",
+  },
+];
+
+export const startGeneratingToasts = (): number | string => {
+  let index = 0;
+
+  // Show first toast immediately
+  const id = toast(loadingMessages[index].title, {
+    description: loadingMessages[index].description,
+  });
+
+  currentToastId = id;
+
+  // Then loop every 3 seconds
+  toastInterval = setInterval(() => {
+    index = (index + 1) % loadingMessages.length;
+    currentToastId = toast(loadingMessages[index].title, {
+      description: loadingMessages[index].description,
+    });
+  }, 3000);
+
+  return id; // return initial toast ID for reference
+};
+
+export const stopGeneratingToasts = () => {
+  if (toastInterval) {
+    clearInterval(toastInterval);
+    toastInterval = null;
+  }
+
+  if (currentToastId) {
+    toast.dismiss(currentToastId);
+    currentToastId = null;
+  }
 };

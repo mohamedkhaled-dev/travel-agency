@@ -22,13 +22,13 @@ const MobileSidebar = ({ user }: MobileSidebarProps) => {
       <header>
         <Link href={"/"}>
           <Image
-            src={"/assets/icons/logo.svg"}
+            src={"/assets/icons/logo.png"}
             alt="Logo"
-            className="size-[30px]"
-            width={30}
-            height={30}
+            className="size-[50px]"
+            width={50}
+            height={50}
           />
-          <h1>Tourvisto</h1>
+          <h1>Velora</h1>
         </Link>
 
         <button onClick={() => setIsOpen(!isOpen)}>

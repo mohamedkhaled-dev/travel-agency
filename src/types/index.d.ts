@@ -4,11 +4,11 @@ export interface BaseUser {
   email: string;
   dateJoined: string;
   imageUrl: string;
+  status?: "user" | "admin";
 }
 
 export interface UserData extends BaseUser {
   itineraryCreated: number | string;
-  status: "user" | "admin";
 }
 
 export type User = BaseUser;
@@ -90,7 +90,7 @@ export interface Trip {
   bestTimeToVisit: string[];
   weatherInfo: string[];
   location: Location;
-  payment_link: string | null; 
+  payment_link: string | null;
 }
 
 export interface TripCardProps {

@@ -1,10 +1,9 @@
 "use client";
 import { UserAvatar } from "@/components";
-import { Trip, UsersItineraryCount } from "@/types";
+import { Trip, User, UsersItineraryCount } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
-import { Models } from "node-appwrite";
 
 // Columns for Users Table
 export const userColumns: ColumnDef<UsersItineraryCount>[] = [
@@ -24,7 +23,7 @@ export const userColumns: ColumnDef<UsersItineraryCount>[] = [
           />
         ) : (
           <UserAvatar
-            user={row.original as unknown as Models.Document}
+            user={row.original as unknown as User}
             size={32}
           />
         )}

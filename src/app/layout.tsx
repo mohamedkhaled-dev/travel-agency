@@ -1,5 +1,6 @@
 import { Figtree, Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 // Define fonts with subsets and weights
 const inter = Inter({
@@ -17,8 +18,9 @@ const figtree = Figtree({
 });
 
 export const metadata = {
-  title: "Travel Agency App",
-  description: "A travel agency app",
+  title: "Velora",
+  description:
+    "A travel agency app that helps you plan and book your trips with ease. Explore destinations, create itineraries, and connect with fellow travelers.",
 };
 
 export default function RootLayout({
@@ -26,7 +28,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en" className={`${inter.variable} ${figtree.variable}`}>
       <head>
@@ -34,6 +35,14 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>{children}</body>
+      <Toaster
+        toastOptions={{
+          classNames: {
+            toast: "!text-primary-500",
+            description: "!text-gray-100",
+          },
+        }}
+      />
     </html>
   );
 }

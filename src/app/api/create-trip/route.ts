@@ -26,6 +26,14 @@ export async function POST(request: NextRequest) {
     Interests: '${interests}'
     TravelStyle: '${travelStyle}'
     GroupType: '${groupType}'
+
+    Make sure to:
+    - Suggest different local experiences than previous plans
+    - Prioritize lesser-known attractions where possible
+    - Mix adventure, culture, food, or relaxation depending on interests
+    - Vary accommodation options (hostels, boutique hotels, luxury stays)
+    - Include one "hidden gem" per day that's off the tourist trail
+
     Return the itinerary and lowest estimated price in a clean, non-markdown JSON format with the following structure:
     {
     "name": "A descriptive title for the trip",
@@ -73,18 +81,30 @@ export async function POST(request: NextRequest) {
 
     const trip = parseMarkdownToJson(textResult.response.text());
 
+    const getRandomPage = () => Math.floor(Math.random() * 5) + 1;
+    const getRandomQueryWords = () => {
+      const extras = [
+        "exploring",
+        "wanderlust",
+        "local life",
+        "hidden gem",
+        "adventure",
+      ];
+      return extras[Math.floor(Math.random() * extras.length)];
+    };
+
+    const imageQuery = `${encodeURIComponent(
+      `${country} ${interests} ${travelStyle} ${getRandomQueryWords()}`
+    )}`;
+
     const imageResponse = await fetch(
-      `https://api.unsplash.com/search/photos?query= ${encodeURIComponent(
-        `${country} ${interests} ${travelStyle}`
-      )}&client_id=${unsplashApiKey}`
+      `https://api.unsplash.com/search/photos?query= ${imageQuery}&client_id=${unsplashApiKey}&page=${getRandomPage()}&per_page=10`
     );
 
     const imageUrls = (await imageResponse.json()).results
+      .sort(() => 0.5 - Math.random()) // Shuffle results
       .slice(0, 3)
-      .map((result: unknown) => {
-        const r = result as { urls?: { regular?: string } };
-        return r.urls?.regular || null;
-      });
+      .map((result: any) => result.urls?.regular || null);
 
     const sessionClient = await createSessionClient();
     if (!sessionClient) {

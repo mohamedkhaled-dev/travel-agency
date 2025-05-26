@@ -10,14 +10,14 @@ const SignInPage = async () => {
           <header className="header">
             <Link href={"/"}>
               <Image
-                width={30}
-                height={30}
-                src={"/assets/icons/logo.svg"}
+                width={50}
+                height={50}
+                src={"/assets/icons/logo.png"}
                 alt="logo"
-                className="size-[30px]"
+                className="size-[50px]"
               />
             </Link>
-            <h1 className="p-28-bold text-dark-100">Tourvisto</h1>
+            <h1 className="p-28-bold text-dark-100">Velora</h1>
           </header>
 
           <article>

@@ -1,30 +1,49 @@
-"use client"
-import { logoutUser } from "@/lib/server/appwrite";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import {
+  FeaturedDestinations,
+  Footer,
+  HandpickedTrips,
+  HeroSection,
+  UserHeader,
+} from "@/components";
+import { getUser } from "@/lib/server/appwrite";
 
-const HomePage = () => {
-  const router = useRouter();
+export const dynamic = "force-dynamic";
 
-  const handleLogout = async () => {
-    await logoutUser();
-    router.replace("/sign-in");
-  };
+export default async function HomePage() {
+  let user = null;
+
+  try {
+    const existingUser = await getUser();
+    if (existingUser) {
+      user = {
+        id: existingUser.$id ?? "",
+        name: existingUser.name,
+        email: existingUser.email,
+        dateJoined: existingUser.joinedAt ?? "",
+        imageUrl: existingUser.imageUrl ?? "",
+        status: existingUser.status ?? "user",
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
+
   return (
-    <div>
-      <button className="cursor-pointer" onClick={handleLogout}>
-        <Image
-          src="/assets/icons/logout.svg"
-          alt="Logout"
-          className="size-6"
-          width={24}
-          height={24}
-        />
-      </button>
+    <main className="bg-white">
+      {/* Header - extracted to separate client component */}
+      <UserHeader user={user} />
 
-      <button onClick={() => router.push("/dashboard")}>Dashboard</button>
-    </div>
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Featured Destinations */}
+      <FeaturedDestinations />
+
+      {/* Handpicked Trips */}
+      <HandpickedTrips />
+
+      {/* Footer */}
+      <Footer />
+    </main>
   );
-};
-
-export default HomePage;
+}

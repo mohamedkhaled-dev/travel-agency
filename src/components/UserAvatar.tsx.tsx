@@ -16,7 +16,7 @@ export const UserAvatar = ({ user, size }: UserAvatarProps) => {
   // Configure the avatar with parameters
   const avatarUrl = `https://api.dicebear.com/7.x/${style}/png?seed=${encodeURIComponent(
     seed
-  )}&backgroundColor=256FF1`;
+  )}&backgroundColor=178a94`;
 
   return (
     <div className={`relative size-[${size}px]`}>

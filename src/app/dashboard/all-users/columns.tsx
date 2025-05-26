@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { cn, formatDate } from "@/lib/utils";
 import { Models } from "node-appwrite";
+import { User } from "@/types";
 
 export const columns: ColumnDef<Models.Document>[] = [
   {
@@ -22,7 +23,7 @@ export const columns: ColumnDef<Models.Document>[] = [
             className="size-8 min-w-8 rounded-full aspect-square"
           />
         ) : (
-          <UserAvatar user={row.original} size={32} />
+          <UserAvatar user={row.original as unknown as User} size={32} />
         )}
         <span className="text-gray-900">{row.original.name}</span>
       </div>

@@ -52,14 +52,16 @@ export const getUsersAndTripsStats = async (): Promise<DashboardStats> => {
 
   const filterByDate: FilterByDate = ({ items, key, start, end }) =>
     items.filter((item) => {
-      const value = (item as Record<string, any>)[key];
-      return value >= start && (!end || value <= end);
+      const value = (item as Record<string, unknown>)[key];
+      if (typeof value === "string") {
+        return value >= start && (!end || value <= end);
+      }
+      return false;
     }).length;
 
   const filterUsersByRole = (role: string) => {
     return users?.documents.filter((u: Document) => u.status === role);
   };
-  console.log("All user docs:", users?.documents);
 
   return {
     totalUsers: users?.total ?? 0,

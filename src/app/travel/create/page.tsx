@@ -8,7 +8,8 @@ import {
   stopGeneratingToasts,
 } from "@/lib/utils";
 import { Country, CountryData, TripFormData } from "@/types";
-import { Ellipsis, Sparkles } from "lucide-react";
+import { ArrowLeft, Ellipsis, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -63,7 +64,7 @@ const CreateTripPage = () => {
       coordinates:
         countries.find((c: Country) => c.name === formData.country)
           ?.coordinates || [],
-      color: "#2d9fa4",
+      color: "#EA382E",
     },
   ];
 
@@ -130,11 +131,21 @@ const CreateTripPage = () => {
   };
 
   return (
-    <main className="flex flex-col gap-10 pb-20 wrapper">
+    <main className="flex flex-col gap-10 py-10 wrapper">
+      <div className="flex items-center gap-4 mb-2">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+        >
+          <ArrowLeft className="size-5" />
+          <span className="text-sm font-medium">Back</span>
+        </Link>
+      </div>
       <Header
         title="Add a New Trip"
         description="View and edit AI Generated travel plans"
       />
+
       <section className="mt-2.5 wrapper-md">
         <form onSubmit={handleSubmit} className="trip-form">
           {/* Form fields */}

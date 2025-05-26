@@ -4,10 +4,10 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = request.cookies.get("session")?.value;
 
-  if (pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/travel")){
     if (!session) {
       // No session found, redirect to sign-in
-      const url = new URL("/", request.url);
+      const url = new URL("/sign-in", request.url);
       return NextResponse.redirect(url);
     }
   }
@@ -25,5 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/sign-in", "/dashboard/:path*"],
+  matcher: ["/sign-in", "/dashboard/:path*", "/travel/:path*"],
 };
