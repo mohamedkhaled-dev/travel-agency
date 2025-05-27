@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,7 +19,7 @@ const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
       <article>
         <h1
           className={cn(
-            "text-dark-100",
+            "text-[var(--color-dark-100)]",
             pathname === "/dashboard"
               ? "text-2xl md:text-4xl font-bold"
               : "text-xl md:text-2xl font-semibold"
@@ -29,10 +29,10 @@ const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
         </h1>
         <p
           className={cn(
-            "text-gray-100 font-normal",
+            "text-[var(--color-gray-100)] font-normal",
             pathname === "/dashboard"
-              ? "text-base md:text-lg "
-              : "text-sm md:text-lg "
+              ? "text-base md:text-lg"
+              : "text-sm md:text-lg"
           )}
         >
           {description}
@@ -43,16 +43,9 @@ const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
         <Link href={ctaUrl}>
           <button
             type="button"
-            className="button-class h-11 w-full md:w-[180px] text-white block"
+            className="button-class h-11 w-full md:w-[180px] text-white flex items-center justify-center cursor-pointer"
           >
-            <Image
-              width={20}
-              height={20}
-              src={"/assets/icons/plus.svg"}
-              alt="plus"
-              className="size-5"
-            />
-
+            <Plus className="size-5" />
             <span className="p-16-semibold">{ctaText}</span>
           </button>
         </Link>

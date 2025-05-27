@@ -21,60 +21,115 @@ export async function POST(request: NextRequest) {
     const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
     const unsplashApiKey = process.env.UNSPLASH_ACCESS_KEY!;
 
-    const prompt = `Generate a ${numberOfDays}-day travel itinerary for ${country} based on the following user information:
+const prompt = `CRITICAL INSTRUCTION: You MUST generate a COMPLETELY UNIQUE ${numberOfDays}-day travel itinerary for ${country}. DUPLICATE OR GENERIC RESPONSES ARE STRICTLY FORBIDDEN.
+
+    UNIQUENESS ENFORCEMENT - MANDATORY:
+    🚫 NO GENERIC "Day 1: Arrive and explore" activities
+    🚫 NO REPEATED activity patterns from previous generations
+    🚫 NO STANDARD TOURIST TRAPS as primary activities
+    🚫 NO COPY-PASTE descriptions or templated responses
+    ✅ MUST discover lesser-known attractions and hidden gems
+    ✅ MUST include unique local experiences specific to this generation
+    ✅ MUST vary accommodation types and specific properties
+    ✅ MUST create original activity combinations never suggested before
+    ✅ MUST include seasonal/temporal unique elements (current local events, festivals)
+    ✅ MUST provide alternative routes and unconventional itinerary flow
+
+    User Requirements:
     Budget: '${budget}'
     Interests: '${interests}'
     TravelStyle: '${travelStyle}'
     GroupType: '${groupType}'
 
-    Make sure to:
-    - Suggest different local experiences than previous plans
-    - Prioritize lesser-known attractions where possible
-    - Mix adventure, culture, food, or relaxation depending on interests
-    - Vary accommodation options (hostels, boutique hotels, luxury stays)
-    - Include one "hidden gem" per day that's off the tourist trail
+    UNIQUENESS CREATIVITY REQUIREMENTS:
+    - Generate ORIGINAL trip names - avoid generic formats like "Adventure in [Country]"
+    - Include SPECIFIC local neighborhoods, not just city centers
+    - Mention EXACT establishments with unique character (family-run restaurants, artisan workshops)
+    - Include UNCONVENTIONAL timing (sunrise activities, late-night markets, weekday specials)
+    - Suggest ALTERNATIVE transportation methods (local ferries, vintage trains, bike routes)
+    - Include INTERACTIVE experiences (cooking with locals, craft workshops, volunteer opportunities)
+    - Mention SEASONAL-SPECIFIC activities happening during visit time
+    - Include BUDGET-SPECIFIC unique options (luxury exclusives OR budget insider tips)
 
-    Return the itinerary and lowest estimated price in a clean, non-markdown JSON format with the following structure:
+    MANDATORY REQUIREMENTS - DO NOT SKIP ANY:
+    - Generate EXACTLY ${numberOfDays} days in the itinerary array - NO MORE, NO LESS
+    - Each day MUST have MINIMUM 3 activities (Morning, Afternoon, Evening)
+    - ALL fields in the JSON structure below are REQUIRED - missing ANY field is FAILURE
+    - Provide REAL, specific locations with ACTUAL coordinates
+    - Include diverse local experiences and hidden gems
+    - Mix adventure, culture, food, or relaxation based on interests
+    - Vary accommodation suggestions (hostels, boutique hotels, luxury stays)
+
+    ABSOLUTE REQUIREMENTS:
+    ✅ MUST provide a UNIQUE descriptive trip name (not generic templates)
+    ✅ MUST provide ORIGINAL trip description highlighting unique aspects (max 100 words)
+    ✅ MUST provide realistic estimated price in USD format ($XXXX)
+    ✅ MUST provide ALL 4 seasons in bestTimeToVisit array with SPECIFIC reasons
+    ✅ MUST provide ALL 4 seasons in weatherInfo array with temperature ranges
+    ✅ MUST provide location object with city, real coordinates, and OpenStreetMap link
+    ✅ MUST provide EXACTLY ${numberOfDays} itinerary days
+    ✅ EACH day MUST have day number, location, and minimum 3 UNIQUE activities
+    ✅ EACH activity MUST have time and DETAILED, SPECIFIC description with local context
+
+    UNIQUENESS VALIDATION CHECKLIST:
+    ❓ Would another AI generate the exact same itinerary for these parameters?
+    ❓ Are the activities something locals would recommend vs tourist guides?
+    ❓ Does each day offer a completely different experience and perspective?
+    ❓ Are the restaurant/accommodation suggestions specific and unique?
+    ❓ Would this itinerary surprise even frequent travelers to this destination?
+    
+    IF ANY ANSWER IS "NO" - REGENERATE WITH MORE CREATIVITY AND ORIGINALITY.
+
+    FAILURE TO PROVIDE UNIQUE, ORIGINAL CONTENT WILL RESULT IN IMMEDIATE REJECTION.
+
+    Return ONLY the complete JSON structure below with ALL fields filled with UNIQUE content:
     {
-    "name": "A descriptive title for the trip",
-    "description": "A brief description of the trip and its highlights not exceeding 100 words",
-    "estimatedPrice": "Lowest average price for the trip in USD, e.g.$price",
+    "name": "REQUIRED: A UNIQUE, creative title for the trip (avoid generic patterns)",
+    "description": "REQUIRED: An ORIGINAL description highlighting unique aspects of THIS specific itinerary, not exceeding 100 words",
+    "estimatedPrice": "REQUIRED: Lowest average price for the trip in USD, e.g.$1200",
     "duration": ${numberOfDays},
     "budget": "${budget}",
     "travelStyle": "${travelStyle}",
     "country": "${country}",
-    "interests": ${interests},
+    "interests": "${interests}",
     "groupType": "${groupType}",
     "bestTimeToVisit": [
-      '🌸 Season (from month to month): reason to visit',
-      '☀️ Season (from month to month): reason to visit',
-      '🍁 Season (from month to month): reason to visit',
-      '❄️ Season (from month to month): reason to visit'
+      "REQUIRED: 🌸 Spring (March to May): UNIQUE specific reason to visit with local context",
+      "REQUIRED: ☀️ Summer (June to August): UNIQUE specific reason to visit with local context", 
+      "REQUIRED: 🍁 Autumn (September to November): UNIQUE specific reason to visit with local context",
+      "REQUIRED: ❄️ Winter (December to February): UNIQUE specific reason to visit with local context"
     ],
     "weatherInfo": [
-      '☀️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
-      '🌦️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
-      '🌧️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
-      '❄️ Season: temperature range in Celsius (temperature range in Fahrenheit)'
+      "REQUIRED: ☀️ Spring: XX-XX°C (XX-XX°F)",
+      "REQUIRED: 🌦️ Summer: XX-XX°C (XX-XX°F)",
+      "REQUIRED: 🌧️ Autumn: XX-XX°C (XX-XX°F)", 
+      "REQUIRED: ❄️ Winter: XX-XX°C (XX-XX°F)"
     ],
     "location": {
-      "city": "name of the city or region",
-      "coordinates": [latitude, longitude],
-      "openStreetMap": "link to open street map"
+      "city": "REQUIRED: name of the main city or region",
+      "coordinates": [REQUIRED_LATITUDE_NUMBER, REQUIRED_LONGITUDE_NUMBER],
+      "openStreetMap": "REQUIRED: https://www.openstreetmap.org/#map=10/latitude/longitude"
     },
     "itinerary": [
     {
       "day": 1,
-      "location": "City/Region Name",
+      "location": "REQUIRED: SPECIFIC City/Region/Neighborhood Name",
       "activities": [
-        {"time": "Morning", "description": "🏰 Visit the local historic castle and enjoy a scenic walk"},
-        {"time": "Afternoon", "description": "🖼️ Explore a famous art museum with a guided tour"},
-        {"time": "Evening", "description": "🍷 Dine at a rooftop restaurant with local wine"}
+        {"time": "Morning", "description": "REQUIRED: UNIQUE detailed morning activity with emoji and local context"},
+        {"time": "Afternoon", "description": "REQUIRED: UNIQUE detailed afternoon activity with emoji and local context"},
+        {"time": "Evening", "description": "REQUIRED: UNIQUE detailed evening activity with emoji and local context"}
       ]
-    },
-    ...
+    }
+    // REPEAT FOR ALL ${numberOfDays} DAYS WITH COMPLETELY DIFFERENT ACTIVITIES - NO EXCEPTIONS
     ]
-    }`;
+    }
+
+    CRITICAL FINAL CHECK: 
+    - Is this itinerary something NO OTHER AI would generate for the same parameters?
+    - Does every activity showcase a unique aspect of ${country}?
+    - Would this surprise and delight travelers looking for authentic experiences?
+    
+    Replace ALL "REQUIRED:" placeholders with UNIQUE, ORIGINAL content. Generate COMPLETE data for ALL ${numberOfDays} days. DO NOT use placeholders, ellipsis (...), generic descriptions, or templated content. EVERY field must be filled with CREATIVE, SPECIFIC, UNIQUE information that stands apart from typical travel suggestions.`;
     const textResult = await genAi
       .getGenerativeModel({ model: "gemini-2.0-flash" })
       .generateContent([prompt]);
@@ -104,7 +159,10 @@ export async function POST(request: NextRequest) {
     const imageUrls = (await imageResponse.json()).results
       .sort(() => 0.5 - Math.random()) // Shuffle results
       .slice(0, 3)
-      .map((result: any) => result.urls?.regular || null);
+      .map((result: unknown) => {
+        const r = result as { urls?: { regular?: string } };
+        return r.urls?.regular || null;
+      });
 
     const sessionClient = await createSessionClient();
     if (!sessionClient) {

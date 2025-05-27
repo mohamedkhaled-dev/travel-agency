@@ -9,7 +9,7 @@ const AllUsersPage = async () => {
   const { users = [] } = result || {};
 
   return (
-    <main className="all-users wrapper">
+    <main className="all-users wrapper pb-10 pt-0">
       <Header
         title="Manage Users"
         description="Filter, sort, and access detailed user profiles"

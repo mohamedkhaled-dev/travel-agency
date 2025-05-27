@@ -31,7 +31,7 @@ const CreateTripPage = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all ");
+        const response = await fetch("https://restcountries.com/v3.1/all");
         const data = await response.json();
         setCountries(
           data.map((country: CountryData) => ({
@@ -64,7 +64,7 @@ const CreateTripPage = () => {
       coordinates:
         countries.find((c: Country) => c.name === formData.country)
           ?.coordinates || [],
-      color: "#EA382E",
+      color: "var(--color-primary-100)",
     },
   ];
 
@@ -92,7 +92,6 @@ const CreateTripPage = () => {
       return;
     }
 
-    // Show generating toasts
     startGeneratingToasts();
 
     try {
@@ -113,7 +112,7 @@ const CreateTripPage = () => {
 
       if (result.success && result.id) {
         stopGeneratingToasts();
-        router.push(`/dashboard/trips/${result.id}`);
+        router.push(`/travel/${result.id}`);
       } else {
         throw new Error("Failed to create trip");
       }
@@ -131,11 +130,11 @@ const CreateTripPage = () => {
   };
 
   return (
-    <main className="flex flex-col gap-10 py-10 wrapper">
-      <div className="flex items-center gap-4 mb-2">
+    <main className="flex flex-col my-10 wrapper">
+      <div className="flex items-center gap-4 mb-4">
         <Link
           href="/"
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          className="flex items-center gap-2 text-[var(--color-gray-100)] hover:text-[var(--color-dark-100)] transition-colors"
         >
           <ArrowLeft className="size-5" />
           <span className="text-sm font-medium">Back</span>
@@ -146,21 +145,32 @@ const CreateTripPage = () => {
         description="View and edit AI Generated travel plans"
       />
 
-      <section className="mt-2.5 wrapper-md">
+      <section className="wrapper-md mt-4">
         <form onSubmit={handleSubmit} className="trip-form">
           {/* Form fields */}
           <div>
-            <label htmlFor="country">Country</label>
+            <label
+              htmlFor="country"
+              className="p-16-semibold text-[var(--color-dark-100)]"
+            >
+              Country
+            </label>
             <ComboBox
               id="country"
               dataSource={countryData}
               placeholder="Select a country..."
               onChange={(value) => handleChange("country", value)}
+              className="mt-2"
             />
           </div>
 
           <div>
-            <label htmlFor="duration">Duration</label>
+            <label
+              htmlFor="duration"
+              className="p-16-semibold text-[var(--color-dark-100)]"
+            >
+              Duration
+            </label>
             <input
               id="duration"
               name="duration"
@@ -168,14 +178,19 @@ const CreateTripPage = () => {
               min={1}
               max={10}
               placeholder="Enter a number of days"
-              className="form-input placeholder:text-gray-100"
+              className="form-input mt-2"
               onChange={(e) => handleChange("duration", Number(e.target.value))}
             />
           </div>
 
           {selectItems.map((key) => (
             <div key={key}>
-              <label htmlFor={key}>{formatKey(key)}</label>
+              <label
+                htmlFor={key}
+                className="p-16-semibold text-[var(--color-dark-100)]"
+              >
+                {formatKey(key)}
+              </label>
               <ComboBox
                 id={key}
                 dataSource={comboBoxItems[key].map((item) => ({
@@ -186,30 +201,36 @@ const CreateTripPage = () => {
                 onChange={(value) =>
                   handleChange(key as keyof TripFormData, value)
                 }
+                className="mt-2"
               />
             </div>
           ))}
 
-          <div className="mt-4 px-6">
-            <label htmlFor="location">Location on the world map</label>
-            <div className="mt-2 w-full max-h-[400px] rounded-md p-0">
+          <div className="mt-6">
+            <label
+              htmlFor="location"
+              className="p-16-semibold text-[var(--color-dark-100)]"
+            >
+              Location on the world map
+            </label>
+            <div className="mt-2 w-full rounded-[var(--radius-20)] p-0">
               <WorldMap mapData={mapData} />
             </div>
           </div>
 
-          <div className="bg-gray-200 h-px w-full" />
+          <div className="bg-[var(--color-gray-200)] h-px w-full mt-6" />
 
           {error && (
-            <div className="error">
+            <div className="error text-[var(--color-red-500)] p-2 mt-2">
               <p>{error}</p>
             </div>
           )}
 
-          <footer className="px-6 w-full">
+          <footer className="w-full mt-6">
             <button
               disabled={loading}
               type="submit"
-              className="button-class h-12 w-full"
+              className="button-class h-12 w-full flex items-center justify-center cursor-pointer"
             >
               {loading ? (
                 <Ellipsis
@@ -221,7 +242,7 @@ const CreateTripPage = () => {
               ) : (
                 <Sparkles className="size-5 text-white" />
               )}
-              <span className="p-16-semibold text-white">
+              <span className="p-16-semibold text-white ml-2">
                 {loading ? "Generating..." : "Generate Trip"}
               </span>
             </button>

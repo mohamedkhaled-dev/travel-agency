@@ -102,7 +102,7 @@ const TripTrendBarChart = ({ data }: TripTrendBarChartProps) => {
                   position="insideLeft"
                   offset={8}
                   className="fill-white"
-                  fontSize={12}
+                  fontSize={10}
                   fontWeight={600}
                 />
               </Bar>

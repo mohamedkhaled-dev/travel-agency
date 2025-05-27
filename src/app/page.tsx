@@ -9,7 +9,7 @@ import { getUser } from "@/lib/server/appwrite";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
+const HomePage = async () => {
   let user = null;
 
   try {
@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   return (
     <main className="bg-white">
-      {/* Header - extracted to separate client component */}
+      {/* Header */}
       <UserHeader user={user} />
 
       {/* Hero Section */}
@@ -46,4 +46,6 @@ export default async function HomePage() {
       <Footer />
     </main>
   );
-}
+};
+
+export default HomePage;

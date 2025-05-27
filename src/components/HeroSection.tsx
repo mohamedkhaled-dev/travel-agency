@@ -1,13 +1,22 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const HeroSection = () => {
   const router = useRouter();
   return (
-    <section className="travel-hero">
-      <div className="bg-linear200 bg-cover">
-        <section className="wrapper py-48 justify-center items-start flex flex-col gap-6">
-          <article className="flex flex-col w-full md:max-w-[520px] gap-3.5 min-h-[400px]">
+    <section className="relative min-h-[800px]">
+      <Image
+        src="/assets/images/hero-img.webp"
+        alt="Hero Background"
+        fill
+        sizes="100vw"
+        className="object-cover"
+        priority 
+      />
+      <div className="absolute inset-0 bg-[var(--background-image-linear200)] bg-cover">
+        <div className="wrapper py-48 flex flex-col items-start gap-6">
+          <div className="flex flex-col w-full md:max-w-[520px] gap-3.5 min-h-[400px]">
             <h1 className="p-72-bold text-white">Plan Your Trip with Ease</h1>
             <p className="text-lg font-normal text-white">
               Customize your travel itinerary in minutes pick your destination,
@@ -15,12 +24,12 @@ const HeroSection = () => {
             </p>
             <button
               onClick={() => router.push("/travel/create")}
-              className="button-class text-white p-16-semibold mt-2 h-11"
+              className="button-class h-11 p-16-semibold mt-2 cursor-pointer"
             >
               Get Started
             </button>
-          </article>
-        </section>
+          </div>
+        </div>
       </div>
     </section>
   );

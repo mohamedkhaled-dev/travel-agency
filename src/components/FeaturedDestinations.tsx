@@ -51,14 +51,13 @@ const FeaturedDestinations = () => {
   return (
     <section className="wrapper py-20">
       <header className="flex flex-col gap-3.5 mb-10">
-        <h2 className="p-30-bold text-dark-100">
+        <h2 className="p-30-bold text-[var(--color-dark-100)]">
           Featured Travel Destinations
         </h2>
-        <p className="p-18-regular text-gray-100">
+        <p className="p-18-regular text-[var(--color-gray-100)]">
           Check out some of the best places you can visit around the world.
         </p>
       </header>
-
       <div className="trip-grid">
         {destinations.map((destination, i) => (
           <DestinationCard

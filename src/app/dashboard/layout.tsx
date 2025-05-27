@@ -27,11 +27,10 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     };
   } catch (e) {
     console.log("User not found", e);
-
     return redirect("/sign-in");
   }
   return (
-    <div className="admin-layout overflow-y-hidden">
+    <div className="admin-layout">
       {/* Mobile Sidebar */}
       <MobileSidebar user={userData} />
 
@@ -40,7 +39,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
         <NavItems user={userData} />
       </aside>
 
-      <main className="children overflow-y-auto">{children}</main>
+      <main className="children">{children}</main>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Header, TripCard } from "@/components";
 import { getAllTrips } from "@/lib/trips";
 import { parseTripData } from "@/lib/utils";
@@ -14,10 +15,16 @@ import {
 const TripsPage = async ({
   searchParams,
 }: {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) => {
+  // Await the searchParams Promise
+  const resolvedSearchParams = await searchParams;
+
   const limit = 8;
-  const page = Math.max(1, parseInt((searchParams.page as string) || "1", 10));
+  const page = Math.max(
+    1,
+    parseInt((resolvedSearchParams.page as string) || "1", 10)
+  );
   const offset = (page - 1) * limit;
 
   let allTripsData: Trip[] = [];
@@ -45,7 +52,7 @@ const TripsPage = async ({
   const currentPage = Math.min(page, totalPages || 1);
 
   return (
-    <main className="all-users wrapper">
+    <main className="trips-page wrapper">
       <Header
         ctaText="Create a trip"
         ctaUrl="/dashboard/trips/create"
@@ -53,12 +60,14 @@ const TripsPage = async ({
         description="View and edit AI-generated travel plans"
       />
 
-      <section className="p-24-semibold text-dark-100">
-        <h1 className="p-24-semibold text-dark-100 mb-4">
+      <section className="p-24-semibold text-[var(--color-dark-100)] ">
+        <h1 className="p-24-semibold text-[var(--color-dark-100)] mb-4">
           Manage Created Trips
         </h1>
         {allTripsData.length === 0 ? (
-          <p className="text-lg text-dark-400">No trips available.</p>
+          <p className="text-lg text-[var(--color-dark-400)]">
+            No trips available.
+          </p>
         ) : (
           <div className="trip-grid">
             {allTripsData.map(
@@ -86,53 +95,54 @@ const TripsPage = async ({
         )}
 
         {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <Pagination className="mt-6">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href={`/dashboard/trips?page=${currentPage - 1}`}
+                  className={
+                    currentPage <= 1
+                      ? "pointer-events-none cursor-not-allowed opacity-50"
+                      : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors"
+                  }
+                  aria-disabled={currentPage <= 1}
+                />
+              </PaginationItem>
 
-        <Pagination className="mt-6">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href={`/dashboard/trips?page=${currentPage - 1}`}
-                className={
-                  currentPage <= 1
-                    ? "pointer-events-none cursor-not-allowed opacity-50"
-                    : "hover:bg-primary-100 hover:text-white"
-                }
-                aria-disabled={currentPage <= 1}
-              />
-            </PaginationItem>
+              {/* Render page numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <PaginationItem key={pageNum}>
+                    <PaginationLink
+                      href={`/dashboard/trips?page=${pageNum}`}
+                      isActive={pageNum === currentPage}
+                      className={
+                        pageNum === currentPage
+                          ? "bg-[var(--color-primary-500)] text-white"
+                          : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors"
+                      }
+                    >
+                      {pageNum}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
 
-            {/* Render page numbers */}
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-              (pageNum) => (
-                <PaginationItem key={pageNum}>
-                  <PaginationLink
-                    href={`/dashboard/trips?page=${pageNum}`}
-                    isActive={pageNum === currentPage}
-                    className={
-                      pageNum === currentPage
-                        ? "bg-primary-500 text-white "
-                        : "hover:bg-primary-100 hover:text-white"
-                    }
-                  >
-                    {pageNum}
-                  </PaginationLink>
-                </PaginationItem>
-              )
-            )}
-
-            <PaginationItem>
-              <PaginationNext
-                href={`/dashboard/trips?page=${currentPage + 1}`}
-                className={
-                  currentPage >= totalPages
-                    ? "pointer-events-none cursor-not-allowed opacity-50"
-                    : "hover:bg-primary-100 hover:text-white"
-                }
-                aria-disabled={currentPage >= totalPages}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+              <PaginationItem>
+                <PaginationNext
+                  href={`/dashboard/trips?page=${currentPage + 1}`}
+                  className={
+                    currentPage >= totalPages
+                      ? "pointer-events-none cursor-not-allowed opacity-50"
+                      : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors"
+                  }
+                  aria-disabled={currentPage >= totalPages}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
       </section>
     </main>
   );

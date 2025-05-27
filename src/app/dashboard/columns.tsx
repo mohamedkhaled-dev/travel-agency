@@ -12,8 +12,7 @@ export const userColumns: ColumnDef<UsersItineraryCount>[] = [
     header: "Name",
     cell: ({ row }) => (
       <div className="flex items-center gap-3 w-[150px] text-left py-2">
-        {row.original.imageUrl &&
-        row.original.imageUrl !== "/assets/images/david.webp" ? (
+        {row.original.imageUrl ? (
           <Image
             width={32}
             height={32}
@@ -22,10 +21,7 @@ export const userColumns: ColumnDef<UsersItineraryCount>[] = [
             className="size-8 min-w-8 rounded-full aspect-square"
           />
         ) : (
-          <UserAvatar
-            user={row.original as unknown as User}
-            size={32}
-          />
+          <UserAvatar user={row.original as unknown as User} size={32} />
         )}
         <span className="text-gray-900">{row.original.name}</span>
       </div>

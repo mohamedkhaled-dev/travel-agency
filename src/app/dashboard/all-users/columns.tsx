@@ -13,8 +13,7 @@ export const columns: ColumnDef<Models.Document>[] = [
     header: "Name",
     cell: ({ row }) => (
       <div className="flex items-center gap-3 w-[200px] text-left py-2">
-        {row.original.imageUrl &&
-        row.original.imageUrl !== "/assets/images/david.webp" ? (
+        {row.original.imageUrl ? (
           <Image
             width={32}
             height={32}
@@ -25,7 +24,9 @@ export const columns: ColumnDef<Models.Document>[] = [
         ) : (
           <UserAvatar user={row.original as unknown as User} size={32} />
         )}
-        <span className="text-gray-900">{row.original.name}</span>
+        <span className="text-[var(--color-gray-900)] font-medium">
+          {row.original.name}
+        </span>
       </div>
     ),
   },
@@ -34,7 +35,7 @@ export const columns: ColumnDef<Models.Document>[] = [
     header: ({ column }) => {
       return (
         <button
-          className="cursor-pointer text-gray-500 text-xs"
+          className="cursor-pointer text-[var(--color-gray-500)] text-xs font-medium"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email Address
@@ -42,7 +43,9 @@ export const columns: ColumnDef<Models.Document>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-gray-500 text-sm">{row.original.email}</div>
+      <div className="text-[var(--color-gray-500)] text-sm">
+        {row.original.email}
+      </div>
     ),
     size: 200,
   },
@@ -50,7 +53,7 @@ export const columns: ColumnDef<Models.Document>[] = [
     accessorKey: "joinedAt",
     header: "Date Joined",
     cell: ({ row }) => (
-      <div className="text-gray-500 text-sm">
+      <div className="text-[var(--color-gray-500)] text-sm">
         {formatDate(row.original.joinedAt)}
       </div>
     ),
@@ -63,21 +66,25 @@ export const columns: ColumnDef<Models.Document>[] = [
       <article
         className={cn(
           "flex items-center gap-2 px-2 py-1 rounded w-fit",
-          row.original.status === "user" ? "bg-success-50" : "bg-light-300"
+          row.original.status === "user"
+            ? "bg-[var(--color-success-50)]"
+            : "bg-[var(--color-light-300)]"
         )}
       >
         <div
           className={cn(
             "size-2 rounded-full",
-            row.original.status === "user" ? "bg-success-500" : "bg-gray-500"
+            row.original.status === "user"
+              ? "bg-[var(--color-success-500)]"
+              : "bg-[var(--color-gray-500)]"
           )}
         />
         <h3
           className={cn(
             "font-inter text-xs font-medium capitalize",
             row.original.status === "user"
-              ? "text-success-700"
-              : "text-gray-700"
+              ? "text-[var(--color-success-700)]"
+              : "text-[var(--color-gray-700)]"
           )}
         >
           {row.original.status}

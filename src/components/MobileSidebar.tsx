@@ -18,9 +18,9 @@ const MobileSidebar = ({ user }: MobileSidebarProps) => {
   };
 
   return (
-    <aside className="mobile-sidebar wrapper">
-      <header>
-        <Link href={"/"}>
+    <aside className="mobile-sidebar">
+      <header className="flex items-center justify-between p-4 border-b border-[var(--color-gray-200)]">
+        <Link href={"/"} className="flex items-center pb-4 gap-2">
           <Image
             src={"/assets/icons/logo.png"}
             alt="Logo"
@@ -28,13 +28,15 @@ const MobileSidebar = ({ user }: MobileSidebarProps) => {
             width={50}
             height={50}
           />
-          <h1>Velora</h1>
+          <h1 className="text-xl font-bold text-[var(--color-primary-600)]">
+            Velora
+          </h1>
         </Link>
 
         <button onClick={() => setIsOpen(!isOpen)}>
           <Image
             src={"/assets/icons/menu.svg"}
-            alt={"Menu"}
+            alt="Menu"
             className="size-7 cursor-pointer"
             width={28}
             height={28}

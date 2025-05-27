@@ -60,24 +60,37 @@ export default async function TripDetailPage({
   } = tripData || {};
 
   const pillItems = [
-    { text: travelStyle, bg: "!bg-pink-50 !text-pink-500" },
-    { text: groupType, bg: "!bg-primary-50 !text-primary-500" },
-    { text: budget, bg: "!bg-success-50 !text-success-700" },
-    { text: interests, bg: "!bg-navy-50 !text-navy-500" },
+    {
+      text: travelStyle,
+      bg: "!bg-[var(--color-pink-50)] !text-[var(--color-pink-500)]",
+    },
+    {
+      text: groupType,
+      bg: "!bg-[var(--color-primary-50)] !text-[var(--color-primary-100)]",
+    },
+    {
+      text: budget,
+      bg: "!bg-[var(--color-success-50)] !text-[var(--color-success-700)]",
+    },
+    {
+      text: interests,
+      bg: "!bg-[var(--color-light-100)] !text-[var(--color-dark-100)]",
+    },
   ];
 
-  // Replace your current return statement with this:
   return (
-    <main className="travel-detail wrapper my-6">
+    <main className="wrapper pb-10">
       <Header
         title="Trip Details"
         description="View and edit AI-generated travel plans"
       />
 
-      <section className="container wrapper space-y-4">
+      <section className="wrapper space-y-4 mt-4">
         {/* Header Section */}
         <header className="space-y-4">
-          <h1 className="text-4xl font-bold text-gray-900">{name}</h1>
+          <h1 className="text-4xl font-bold text-[var(--color-dark-100)]">
+            {name}
+          </h1>
           <div className="flex items-center gap-4">
             <InfoPill
               text={`${duration} day plan`}
@@ -96,7 +109,7 @@ export default async function TripDetailPage({
             <div
               key={i}
               className={cn(
-                "relative rounded-xl overflow-hidden",
+                "relative rounded-[var(--radius-20)] overflow-hidden",
                 i === 0 ? "md:col-span-2 md:row-span-2 h-80" : "h-40"
               )}
             >
@@ -105,6 +118,7 @@ export default async function TripDetailPage({
                 src={url}
                 alt={`Trip image ${i + 1}`}
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority={i === 0}
               />
             </div>
@@ -117,7 +131,7 @@ export default async function TripDetailPage({
             <Badge
               key={i}
               variant="outline"
-              className={`${pill.bg} text-base font-medium px-4 py-1.5 rounded-full`}
+              className={`${pill.bg} text-base font-medium px-4 py-1.5 rounded-[var(--radius-20)]`}
             >
               {getFirstWord(pill.text)}
             </Badge>
@@ -139,35 +153,46 @@ export default async function TripDetailPage({
         </section>
 
         {/* Price Section */}
-        <div className="bg-blue-50 p-4 rounded-lg mb-2">
-          <h2 className="text-3xl font-bold text-blue-700">{estimatedPrice}</h2>
-          <p className="text-blue-600">Estimated total price for this trip</p>
-        </div>
+        <section className="bg-[var(--color-primary-50)] p-4 rounded-[var(--radius-20)] my-4">
+          <h2 className="text-3xl font-bold text-[var(--color-primary-500)]">
+            {estimatedPrice}
+          </h2>
+          <p className="text-[var(--color-primary-100)]">
+            Estimated total price for this trip
+          </p>
+        </section>
 
         {/* Description */}
-        <p className="text-lg text-gray-700 leading-relaxed">{description}</p>
+        <p className="text-lg text-[var(--color-gray-100)] leading-relaxed">
+          {description}
+        </p>
 
         {/* Itinerary Section */}
         <section className="space-y-8">
-          <h2 className="text-2xl font-bold text-gray-900">Daily Itinerary</h2>
-
+          <h2 className="text-2xl font-bold text-[var(--color-dark-100)]">
+            Daily Itinerary
+          </h2>
           {itinerary?.map((dayPlan, i: number) => (
-            <div key={i} className="bg-white rounded-xl shadow-sm p-6">
+            <div
+              key={i}
+              className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-6"
+            >
               <h3 className="text-xl font-semibold mb-4">
-                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full mr-3">
+                <span className="bg-[var(--color-primary-50)] text-[var(--color-primary-500)] px-3 py-1 rounded-full mr-3">
                   Day {dayPlan.day}
                 </span>
                 {dayPlan.location}
               </h3>
-
               <ul className="space-y-4">
                 {dayPlan.activities.map((activity, j) => (
                   <li key={j} className="flex items-start gap-4">
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-[var(--color-dark-100)]">
                         {activity.time}
                       </p>
-                      <p className="text-gray-700">{activity.description}</p>
+                      <p className="text-[var(--color-gray-100)]">
+                        {activity.description}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -178,9 +203,9 @@ export default async function TripDetailPage({
 
         {/* Best Time & Weather Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-6">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Calendar className="text-blue-500" size={20} />
+              <Calendar className="text-[var(--color-primary-500)]" size={20} />
               Best Time To Visit
             </h3>
             <ul className="space-y-3">
@@ -190,10 +215,12 @@ export default async function TripDetailPage({
                 return (
                   <li key={i} className="flex items-start gap-3">
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-[var(--color-dark-100)]">
                         {season.trim()}
                       </p>
-                      <p className="text-gray-700">{description.trim()}</p>
+                      <p className="text-[var(--color-gray-100)]">
+                        {description.trim()}
+                      </p>
                     </div>
                   </li>
                 );
@@ -201,9 +228,9 @@ export default async function TripDetailPage({
             </ul>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-6">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <CloudSun className="text-blue-400" size={20} />
+              <CloudSun className="text-[var(--color-primary-500)]" size={20} />
               Weather Information
             </h3>
             <ul className="space-y-3">
@@ -213,10 +240,12 @@ export default async function TripDetailPage({
                 return (
                   <li key={i} className="flex items-start gap-3">
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-[var(--color-dark-100)]">
                         {season.trim()}
                       </p>
-                      <p className="text-gray-700">{temp.trim()}</p>
+                      <p className="text-[var(--color-gray-100)]">
+                        {temp.trim()}
+                      </p>
                     </div>
                   </li>
                 );
@@ -228,7 +257,9 @@ export default async function TripDetailPage({
 
       {/* Popular Trips Section */}
       <section className="mt-16 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">Popular Trips</h2>
+        <h2 className="text-2xl font-bold text-[var(--color-dark-100)]">
+          Popular Trips
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {allTripsData.map((trip) => (
             <TripCard

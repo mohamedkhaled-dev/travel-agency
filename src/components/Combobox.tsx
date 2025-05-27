@@ -33,8 +33,16 @@ type ComboboxProps = {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
+  className?: string;
 };
-const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
+
+const Combobox = ({
+  id,
+  dataSource,
+  placeholder,
+  onChange,
+  className,
+}: ComboboxProps) => {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
@@ -50,7 +58,7 @@ const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
   return (
     <Select open={open} onOpenChange={setOpen} onValueChange={handleSelect}>
       <SelectTrigger
-        className="combo-box flex items-center cursor-pointer"
+        className={cn("combo-box flex items-center cursor-pointer w-full", className)}
         onClick={() => setOpen((prev) => !prev)}
       >
         <SelectValue
@@ -60,49 +68,57 @@ const Combobox = ({ id, dataSource, placeholder, onChange }: ComboboxProps) => {
                 {selectedItem?.flag && (
                   <Image
                     src={selectedItem.flag}
-                    alt={"flag"}
+                    alt={selectedItem.alt || `${selectedItem.text} flag`}
                     width={24}
                     height={24}
                     className="w-6 h-auto me-1"
                   />
                 )}
-                {selectedItem?.text}
+                <span className="p-16-semibold text-[var(--color-dark-100)]">
+                  {selectedItem?.text}
+                </span>
               </div>
             ) : (
-              placeholder || `Select ${id}...`
+              <span className="p-16-semibold text-[var(--color-gray-100)]">
+                {placeholder || `Select ${id}...`}
+              </span>
             )
           }
         />
       </SelectTrigger>
-      <SelectContent className="comboBox-popup !h-fit">
+      <SelectContent className="comboBox-popup">
         <Command className="h-auto">
-          <CommandInput placeholder={`Search ${id}...`} />
+          <CommandInput placeholder={`Search ${id}...`} className="p-2" />
           <CommandList>
-            <CommandEmpty>No {id} found.</CommandEmpty>
+            <CommandEmpty className="p-2 text-[var(--color-gray-100)]">
+              No {id} found.
+            </CommandEmpty>
             <CommandGroup>
               {dataSource.map((item) => (
                 <CommandItem
                   key={item.value}
                   value={item.value}
                   onSelect={handleSelect}
-                  className="flex items-center cursor-pointer hover:bg-light-300 py-2"
+                  className="flex items-center cursor-pointer hover:bg-[var(--color-light-300)] py-2 px-2"
                 >
                   <Check
                     className={cn(
-                      "me-2 size-2",
+                      "me-2 size-4",
                       value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {item.flag && (
                     <Image
                       src={item.flag}
-                      alt={"flag"}
+                      alt={item.alt || `${item.text} flag`}
                       width={24}
                       height={24}
                       className="w-6 h-auto me-2"
                     />
                   )}
-                  {item.text}
+                  <span className="p-16-semibold text-[var(--color-dark-100)]">
+                    {item.text}
+                  </span>
                 </CommandItem>
               ))}
             </CommandGroup>
