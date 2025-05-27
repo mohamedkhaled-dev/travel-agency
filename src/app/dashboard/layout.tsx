@@ -4,6 +4,13 @@ import { getUser } from "@/lib/server/appwrite";
 import { User } from "@/types";
 import { redirect } from "next/navigation";
 
+// Static metadata
+export const metadata = {
+  title: "Dashboard | Velora",
+  description:
+    "Explore your personalized travel dashboard with Velora. Manage destinations, itineraries, and user activities seamlessly.",
+};
+
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   let userData: User;
 

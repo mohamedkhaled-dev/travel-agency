@@ -18,7 +18,7 @@ const figtree = Figtree({
 });
 
 export const metadata = {
-  title: "Velora",
+  title: "Home | Velora",
   description:
     "A travel agency app that helps you plan and book your trips with ease. Explore destinations, create itineraries, and connect with fellow travelers.",
 };

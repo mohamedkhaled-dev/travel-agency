@@ -1,7 +1,12 @@
-"use client";
 import { loginWithGoogle } from "@/lib/server/oauth";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Sign-in | Velora",
+  description:
+    "Sign in to Velora to manage your travel destinations, itineraries, and user activity with ease.",
+};
 
 const SignInPage = () => {
   return (
@@ -26,7 +31,9 @@ const SignInPage = () => {
                 className="size-[50px]"
               />
             </Link>
-            <h1 className="p-28-bold text-[var(--color-primary-100)]">Velora</h1>
+            <h1 className="p-28-bold text-[var(--color-primary-100)]">
+              Velora
+            </h1>
           </header>
 
           <article className="text-center">
@@ -40,7 +47,7 @@ const SignInPage = () => {
           </article>
           <button
             className="button-class h-11 w-full cursor-pointer"
-            onClick={() => loginWithGoogle()}
+            onClick={loginWithGoogle}
           >
             <Image
               src={"/assets/icons/google.svg"}

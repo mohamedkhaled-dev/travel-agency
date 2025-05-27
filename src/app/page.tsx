@@ -30,19 +30,10 @@ const HomePage = async () => {
 
   return (
     <main className="bg-white">
-      {/* Header */}
       <UserHeader user={user} />
-
-      {/* Hero Section */}
       <HeroSection />
-
-      {/* Featured Destinations */}
       <FeaturedDestinations />
-
-      {/* Handpicked Trips */}
       <HandpickedTrips />
-
-      {/* Footer */}
       <Footer />
     </main>
   );

@@ -1,6 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
+// Static metadata
+export const metadata = {
+  title: "404 | Velora",
+  description: "The page you are looking for could not be found.",
+};
+
 export default function NotFound() {
   return (
     <main className="min-h-screen bg-[var(--color-light-200)] flex items-center justify-center p-4">
