@@ -20,29 +20,29 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export type ComboboxItem = {
+export type ComboBoxComponentItem = {
   text: string;
   value: string;
   flag?: string;
   alt?: string;
 };
 
-type ComboboxProps = {
+type ComboBoxComponentProps = {
   id: string;
-  dataSource: ComboboxItem[];
+  dataSource: ComboBoxComponentItem[];
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
 };
 
-const Combobox = ({
+const ComboBoxComponent = ({
   id,
   dataSource,
   placeholder,
   onChange,
   className,
-}: ComboboxProps) => {
+}: ComboBoxComponentProps) => {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
@@ -58,7 +58,10 @@ const Combobox = ({
   return (
     <Select open={open} onOpenChange={setOpen} onValueChange={handleSelect}>
       <SelectTrigger
-        className={cn("combo-box flex items-center cursor-pointer w-full", className)}
+        className={cn(
+          "combo-box flex items-center cursor-pointer w-full",
+          className
+        )}
         onClick={() => setOpen((prev) => !prev)}
       >
         <SelectValue
@@ -129,4 +132,4 @@ const Combobox = ({
   );
 };
 
-export default Combobox;
+export default ComboBoxComponent;

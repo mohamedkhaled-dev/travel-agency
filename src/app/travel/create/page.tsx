@@ -1,6 +1,6 @@
 "use client";
 
-import { ComboBox, Header, WorldMap } from "@/components";
+import { ComboBoxComponent, Header, WorldMap } from "@/components";
 import { comboBoxItems, selectItems } from "@/constants";
 import {
   formatKey,
@@ -155,7 +155,7 @@ const CreateTripPage = () => {
             >
               Country
             </label>
-            <ComboBox
+            <ComboBoxComponent
               id="country"
               dataSource={countryData}
               placeholder="Select a country..."
@@ -191,7 +191,7 @@ const CreateTripPage = () => {
               >
                 {formatKey(key)}
               </label>
-              <ComboBox
+              <ComboBoxComponent
                 id={key}
                 dataSource={comboBoxItems[key].map((item) => ({
                   text: item,
