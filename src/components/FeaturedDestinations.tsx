@@ -49,7 +49,7 @@ const destinations = [
 
 const FeaturedDestinations = () => {
   return (
-    <section className="wrapper py-20">
+    <section className="wrapper py-10 sm:py-20">
       <header className="flex flex-col gap-3.5 mb-10">
         <h2 className="p-30-bold text-[var(--color-dark-100)]">
           Featured Travel Destinations

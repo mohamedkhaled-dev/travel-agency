@@ -131,7 +131,6 @@ export async function storeUserData() {
 
   try {
     const user = await account.get();
-    console.log("Logged-in user:", user);
 
     const existingUser = await database.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
@@ -140,7 +139,6 @@ export async function storeUserData() {
     );
 
     if (existingUser.total > 0) {
-      console.log("User already exists in DB");
       return existingUser.documents[0];
     }
 
@@ -156,8 +154,6 @@ export async function storeUserData() {
         imageUrl: "",
       }
     );
-
-    console.log("Created user in DB:", createdUser);
     return createdUser;
   } catch (error) {
     console.error("Error storing user data:", error);
@@ -199,14 +195,16 @@ export async function getAllUsers(
   if (!sessionClient) return null;
 
   try {
-    const { documents: users, total } =
-      await sessionClient.database.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
-        [Query.limit(limit), Query.offset(offset)]
-      );
+    const usersData = await sessionClient.database.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+      [Query.limit(limit), Query.offset(offset)]
+    );
 
-    return { users, total };
+    return {
+      users: usersData.documents,
+      total: usersData.total,
+    };
   } catch (e) {
     console.error("Error fetching users:", e);
     return null;

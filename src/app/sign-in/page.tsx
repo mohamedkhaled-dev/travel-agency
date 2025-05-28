@@ -15,9 +15,10 @@ const SignInPage = () => {
         src="/assets/images/auth-img.webp"
         alt="Auth Background"
         fill
-        sizes="100vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 1024px, 1280px"
         className="object-cover"
         priority
+        quality={85}
       />
       <section className="mx-auto glassmorphism flex-center px-6 z-10">
         <div className="sign-in-card">

@@ -26,7 +26,7 @@ type GeographyFeature = {
 
 const WorldMap = ({ mapData }: WorldMapProps) => {
   return (
-    <div className="w-full h-[400px] overflow-hidden">
+    <div className="w-full h-[300px] sm:h-[400px] overflow-hidden">
       <ComposableMap
         className="w-full h-full"
         projectionConfig={{

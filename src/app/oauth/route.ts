@@ -9,9 +9,6 @@ export async function GET(request: NextRequest) {
   const { account } = await createAdminClient();
   const session = await account.createSession(userId, secret);
 
-  // Store user data in the database
-  console.log("Appwrite Session:", session);
-
   const cookieStore = await cookies();
   const expireDate = new Date(session.expire);
   const maxAge = Math.floor((expireDate.getTime() - Date.now()) / 1000);

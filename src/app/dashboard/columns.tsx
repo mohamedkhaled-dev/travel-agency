@@ -23,7 +23,7 @@ export const userColumns: ColumnDef<UsersItineraryCount>[] = [
         ) : (
           <UserAvatar user={row.original as unknown as User} size={32} />
         )}
-        <span className="text-gray-900">{row.original.name}</span>
+        <span className="text-gray-900 font-medium">{row.original.name}</span>
       </div>
     ),
   },

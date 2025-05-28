@@ -52,7 +52,7 @@ const TripsPage = async ({
   const currentPage = Math.min(page, totalPages || 1);
 
   return (
-    <main className="trips-page wrapper">
+    <main className="trips-page wrapper ">
       <Header
         ctaText="Create a trip"
         ctaUrl="/dashboard/trips/create"
@@ -60,16 +60,16 @@ const TripsPage = async ({
         description="View and edit AI-generated travel plans"
       />
 
-      <section className="p-24-semibold text-[var(--color-dark-100)] ">
-        <h1 className="p-24-semibold text-[var(--color-dark-100)] mb-4">
+      <section className="text-[var(--color-dark-100)] mt-4 sm:mt-6">
+        <h1 className="p-24-semibold text-[var(--color-dark-100)] text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
           Manage Created Trips
         </h1>
         {allTripsData.length === 0 ? (
-          <p className="text-lg text-[var(--color-dark-400)]">
+          <p className="text-sm sm:text-lg text-[var(--color-dark-400)]">
             No trips available.
           </p>
         ) : (
-          <div className="trip-grid">
+          <div className="trip-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {allTripsData.map(
               ({
                 id,
@@ -96,15 +96,15 @@ const TripsPage = async ({
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <Pagination className="mt-6">
-            <PaginationContent>
+          <Pagination className="mt-4 sm:mt-6">
+            <PaginationContent className="flex justify-center gap-1 sm:gap-2">
               <PaginationItem>
                 <PaginationPrevious
                   href={`/dashboard/trips?page=${currentPage - 1}`}
                   className={
                     currentPage <= 1
                       ? "pointer-events-none cursor-not-allowed opacity-50"
-                      : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors"
+                      : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors text-sm sm:text-base"
                   }
                   aria-disabled={currentPage <= 1}
                 />
@@ -119,8 +119,8 @@ const TripsPage = async ({
                       isActive={pageNum === currentPage}
                       className={
                         pageNum === currentPage
-                          ? "bg-[var(--color-primary-500)] text-white"
-                          : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors"
+                          ? "bg-[var(--color-primary-500)] text-white text-sm sm:text-base"
+                          : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors text-sm sm:text-base"
                       }
                     >
                       {pageNum}
@@ -135,7 +135,7 @@ const TripsPage = async ({
                   className={
                     currentPage >= totalPages
                       ? "pointer-events-none cursor-not-allowed opacity-50"
-                      : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors"
+                      : "hover:bg-[var(--color-primary-100)] hover:text-white transition-colors text-sm sm:text-base"
                   }
                   aria-disabled={currentPage >= totalPages}
                 />

@@ -2,26 +2,59 @@ import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { parseMarkdownToJson } from "@/lib/utils";
 import { createSessionClient } from "@/lib/server/appwrite";
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    // Get the session client to identify the logged-in user
+    const sessionClient = await createSessionClient();
+    if (!sessionClient) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const {
-      country,
-      numberOfDays,
-      travelStyle,
-      interests,
-      budget,
-      groupType,
-      userId,
-    } = body;
+    const { account, database } = sessionClient;
+
+    // Get the current user's account ID
+    const userAccount = await account.get();
+    const accountId = userAccount.$id;
+
+    // Find the user document using the accountId
+    const userQuery = await database.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+      [Query.equal("accountId", accountId)]
+    );
+
+    if (userQuery.total === 0) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const userId = userQuery.documents[0].$id; // Use the user document ID
+
+    // Parse the request body (trip details)
+    const body = await request.json();
+    const { country, numberOfDays, travelStyle, interests, budget, groupType } =
+      body;
+
+    // Validate required fields
+    if (
+      !country ||
+      !numberOfDays ||
+      !travelStyle ||
+      !interests ||
+      !budget ||
+      !groupType
+    ) {
+      return NextResponse.json(
+        { success: false, error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
 
     const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
     const unsplashApiKey = process.env.UNSPLASH_ACCESS_KEY!;
 
-const prompt = `CRITICAL INSTRUCTION: You MUST generate a COMPLETELY UNIQUE ${numberOfDays}-day travel itinerary for ${country}. DUPLICATE OR GENERIC RESPONSES ARE STRICTLY FORBIDDEN.
+    const prompt = `CRITICAL INSTRUCTION: You MUST generate a COMPLETELY UNIQUE ${numberOfDays}-day travel itinerary for ${country}. DUPLICATE OR GENERIC RESPONSES ARE STRICTLY FORBIDDEN.
 
     UNIQUENESS ENFORCEMENT - MANDATORY:
     🚫 NO GENERIC "Day 1: Arrive and explore" activities
@@ -130,6 +163,7 @@ const prompt = `CRITICAL INSTRUCTION: You MUST generate a COMPLETELY UNIQUE ${nu
     - Would this surprise and delight travelers looking for authentic experiences?
     
     Replace ALL "REQUIRED:" placeholders with UNIQUE, ORIGINAL content. Generate COMPLETE data for ALL ${numberOfDays} days. DO NOT use placeholders, ellipsis (...), generic descriptions, or templated content. EVERY field must be filled with CREATIVE, SPECIFIC, UNIQUE information that stands apart from typical travel suggestions.`;
+
     const textResult = await genAi
       .getGenerativeModel({ model: "gemini-2.0-flash" })
       .generateContent([prompt]);
@@ -153,7 +187,7 @@ const prompt = `CRITICAL INSTRUCTION: You MUST generate a COMPLETELY UNIQUE ${nu
     )}`;
 
     const imageResponse = await fetch(
-      `https://api.unsplash.com/search/photos?query= ${imageQuery}&client_id=${unsplashApiKey}&page=${getRandomPage()}&per_page=10`
+      `https://api.unsplash.com/search/photos?query=${imageQuery}&client_id=${unsplashApiKey}&page=${getRandomPage()}&per_page=10`
     );
 
     const imageUrls = (await imageResponse.json()).results
@@ -164,20 +198,15 @@ const prompt = `CRITICAL INSTRUCTION: You MUST generate a COMPLETELY UNIQUE ${nu
         return r.urls?.regular || null;
       });
 
-    const sessionClient = await createSessionClient();
-    if (!sessionClient) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const result = await sessionClient.database.createDocument(
+    const result = await database.createDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
       process.env.NEXT_PUBLIC_APPWRITE_TRIPS_COLLECTION_ID!,
       ID.unique(),
       {
+        userId, 
         tripDetails: JSON.stringify(trip),
         createdAt: new Date().toISOString(),
         imageUrls,
-        userId,
       }
     );
 

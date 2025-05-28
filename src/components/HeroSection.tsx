@@ -10,9 +10,10 @@ const HeroSection = () => {
         src="/assets/images/hero-img.webp"
         alt="Hero Background"
         fill
-        sizes="100vw"
+        sizes="(max-width: 640px) 640px, (max-width: 768px) 768px, (max-width: 1024px) 1024px, 100vw"
         className="object-cover"
-        priority 
+        priority
+        quality={85} 
       />
       <div className="absolute inset-0 bg-[var(--background-image-linear200)] bg-cover">
         <div className="wrapper py-48 flex flex-col items-start gap-6">

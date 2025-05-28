@@ -72,17 +72,17 @@ const ComboBoxComponent = ({
                   <Image
                     src={selectedItem.flag}
                     alt={selectedItem.alt || `${selectedItem.text} flag`}
-                    width={24}
-                    height={24}
-                    className="w-6 h-auto me-1"
+                    width={20}
+                    height={20}
+                    className="w-5 h-auto me-1 sm:me-2"
                   />
                 )}
-                <span className="p-16-semibold text-[var(--color-dark-100)]">
+                <span className="p-16-semibold text-[var(--color-dark-100)] text-sm sm:text-base">
                   {selectedItem?.text}
                 </span>
               </div>
             ) : (
-              <span className="p-16-semibold text-[var(--color-gray-100)]">
+              <span className="p-16-semibold text-[var(--color-gray-100)] text-sm sm:text-base">
                 {placeholder || `Select ${id}...`}
               </span>
             )
@@ -90,10 +90,13 @@ const ComboBoxComponent = ({
         />
       </SelectTrigger>
       <SelectContent className="comboBox-popup">
-        <Command className="h-auto">
-          <CommandInput placeholder={`Search ${id}...`} className="p-2" />
-          <CommandList>
-            <CommandEmpty className="p-2 text-[var(--color-gray-100)]">
+        <Command className="h-auto ">
+          <CommandInput
+            placeholder={`Search ${id}...`}
+            className="p-1 sm:p-2 text-sm sm:text-base"
+          />
+          <CommandList >
+            <CommandEmpty className="p-1 sm:p-2 text-[var(--color-gray-100)] text-sm sm:text-base">
               No {id} found.
             </CommandEmpty>
             <CommandGroup>
@@ -102,11 +105,11 @@ const ComboBoxComponent = ({
                   key={item.value}
                   value={item.value}
                   onSelect={handleSelect}
-                  className="flex items-center cursor-pointer hover:bg-[var(--color-light-300)] py-2 px-2"
+                  className="items-center cursor-pointer hover:bg-[var(--color-light-300)] py-1 sm:py-2 px-2"
                 >
                   <Check
                     className={cn(
-                      "me-2 size-4",
+                      "me-1 sm:me-2 size-3 sm:size-4",
                       value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
@@ -114,12 +117,12 @@ const ComboBoxComponent = ({
                     <Image
                       src={item.flag}
                       alt={item.alt || `${item.text} flag`}
-                      width={24}
-                      height={24}
-                      className="w-6 h-auto me-2"
+                      width={20}
+                      height={20}
+                      className="w-5 h-auto me-1 sm:me-2"
                     />
                   )}
-                  <span className="p-16-semibold text-[var(--color-dark-100)]">
+                  <span className="p-16-semibold text-[var(--color-dark-100)] text-sm sm:text-base">
                     {item.text}
                   </span>
                 </CommandItem>

@@ -1,5 +1,3 @@
-// File: /components/UserGrowthBarChart.tsx
-
 "use client";
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
@@ -32,16 +30,18 @@ const UserGrowthBarChart = ({ data }: UserGrowthBarChartProps) => {
   return (
     <Card className="border-none shadow-sm bg-white">
       <CardHeader>
-        <CardTitle className="text-center font-bold">User Growth</CardTitle>
+        <CardTitle className="text-center font-bold text-lg sm:text-xl">
+          User Growth
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="px-2 sm:px-6">
+        <ChartContainer config={chartConfig} className="min-h-[280px] sm:min-h-[300px] w-full">
           <BarChart
             accessibilityLayer
             data={data}
             margin={{
               left: 5,
-              bottom: 30,
+              bottom: 20,
               top: 0,
               right: 5,
             }}
@@ -51,26 +51,36 @@ const UserGrowthBarChart = ({ data }: UserGrowthBarChartProps) => {
               dataKey="day"
               tickLine={false}
               axisLine={false}
-              tickMargin={10}
+              tickMargin={8}
               tickFormatter={(value) => value}
               label={{
                 value: "Days",
                 position: "insideBottom",
-                offset: -20,
-                style: { textAnchor: "middle", fontWeight: "bold" },
+                offset: -10,
+                style: {
+                  textAnchor: "middle",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                },
               }}
+              className="text-xs sm:text-sm"
             />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tickMargin={10}
+              tickMargin={8}
               tickFormatter={(value) => value}
               label={{
                 value: "Number of Users",
                 angle: -90,
                 position: "insideLeft",
-                style: { textAnchor: "middle", fontWeight: "bold" },
+                style: {
+                  textAnchor: "middle",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                },
               }}
+              className="text-xs sm:text-sm"
             />
             <ChartTooltip
               cursor={false}
@@ -82,7 +92,7 @@ const UserGrowthBarChart = ({ data }: UserGrowthBarChartProps) => {
               dataKey="count"
               fill="#14b8a6"
               radius={[10, 10, 0, 0]}
-              barSize={60}
+              barSize={40}
             />
           </BarChart>
         </ChartContainer>

@@ -9,12 +9,14 @@ const AllUsersPage = async () => {
   const { users = [] } = result || {};
 
   return (
-    <main className="all-users wrapper pb-10 pt-0">
+    <main className="all-users wrapper ">
       <Header
         title="Manage Users"
         description="Filter, sort, and access detailed user profiles"
       />
-      <DataTable columns={columns} data={users} />
+      <section className="mt-4 sm:mt-6">
+        <DataTable columns={columns} data={users} />
+      </section>
     </main>
   );
 };

@@ -35,22 +35,22 @@ const chartConfig = {
 
 const TripTrendBarChart = ({ data }: TripTrendBarChartProps) => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <Card className="border-none shadow-sm bg-white">
         <CardHeader>
-          <CardTitle className="text-center font-bold">
-            Trips Trend 
+          <CardTitle className="text-center font-bold text-lg sm:text-xl">
+            Trips Trend
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig}>
+        <CardContent className="px-2 sm:px-6">
+          <ChartContainer config={chartConfig} className="min-h-[380px] sm:min-h-[300px] w-full">
             <BarChart
               accessibilityLayer
               data={data}
               layout="vertical"
               margin={{
-                left: 5, 
-                bottom: 30,
+                left: 5,
+                bottom: 20,
                 top: 0,
                 right: 5,
               }}
@@ -59,28 +59,38 @@ const TripTrendBarChart = ({ data }: TripTrendBarChartProps) => {
               <XAxis
                 type="number"
                 dataKey="count"
-                tickMargin={10}
-                hide={false} 
+                tickMargin={8}
+                hide={false}
                 label={{
                   value: "Number of Trips",
                   position: "insideBottom",
-                  offset: -20,
-                  style: { textAnchor: "middle", fontWeight: "bold" },
+                  offset: -10,
+                  style: {
+                    textAnchor: "middle",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                  },
                 }}
+                className="text-xs sm:text-sm"
               />
               <YAxis
                 type="category"
                 dataKey="travelStyle"
                 tickLine={false}
-                tickMargin={10}
+                tickMargin={8}
                 axisLine={false}
                 tickFormatter={(value) => value.slice(0, 3)}
                 label={{
                   value: "Travel Style",
                   angle: -90,
                   position: "insideLeft",
-                  style: { textAnchor: "middle", fontWeight: "bold" },
+                  style: {
+                    textAnchor: "middle",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                  },
                 }}
+                className="text-xs sm:text-sm"
               />
               <ChartTooltip
                 cursor={false}
@@ -95,7 +105,7 @@ const TripTrendBarChart = ({ data }: TripTrendBarChartProps) => {
                 dataKey="count"
                 fill="#6366f1"
                 radius={[0, 10, 10, 0]}
-                barSize={60}
+                barSize={40}
               >
                 <LabelList
                   dataKey="travelStyle"
@@ -104,6 +114,7 @@ const TripTrendBarChart = ({ data }: TripTrendBarChartProps) => {
                   className="fill-white"
                   fontSize={10}
                   fontWeight={600}
+                  
                 />
               </Bar>
             </BarChart>
@@ -113,4 +124,5 @@ const TripTrendBarChart = ({ data }: TripTrendBarChartProps) => {
     </div>
   );
 };
+
 export default TripTrendBarChart;

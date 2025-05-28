@@ -19,15 +19,15 @@ const UserHeader = ({ user }: { user: User | null }) => {
         <>
           {user.status === "admin" && (
             <button
-              className="button-class h-9 hover:-translate-y-1 transition duration-200  cursor-pointer"
+              className="button-class h-9 hover:-translate-y-1 transition duration-200 cursor-pointer"
               onClick={() => router.push("/dashboard")}
             >
-              Admin Dashboard
+              Dashboard
             </button>
           )}
           <div className="flex items-center gap-2 glassmorphism rounded-lg px-4 py-2 hover:-translate-y-1 transition duration-200 cursor-pointer">
             <span className="text-white font-semibold capitalize">
-              {user.name}
+              {user.name.split(" ")[0]}
             </span>
             <button
               className="text-white hover:text-[var(--color-red-500)] cursor-pointer"

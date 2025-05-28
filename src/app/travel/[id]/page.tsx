@@ -80,14 +80,14 @@ export default async function TripDetailPage({
   ];
 
   return (
-    <main className="wrapper my-10">
-      <div className="flex items-center gap-4 mb-6">
+    <main className="wrapper my-6 sm:my-10">
+      <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[var(--color-gray-100)] hover:text-[var(--color-dark-100)] transition-colors"
+          className="flex items-center gap-1 sm:gap-2 text-[var(--color-gray-100)] hover:text-[var(--color-dark-100)] transition-colors"
         >
-          <ArrowLeft className="size-5" />
-          <span className="text-sm font-medium">Back</span>
+          <ArrowLeft className="size-4 sm:size-5" />
+          <span className="text-xs sm:text-sm font-medium">Back</span>
         </Link>
       </div>
       <Header
@@ -95,13 +95,13 @@ export default async function TripDetailPage({
         description="View and edit AI-generated travel plans"
       />
 
-      <section className="wrapper space-y-4 mt-4">
+      <section className="wrapper space-y-3 sm:space-y-4 mt-2 sm:mt-4">
         {/* Header Section */}
-        <header className="space-y-4">
-          <h1 className="text-4xl font-bold text-[var(--color-dark-100)]">
+        <header className="space-y-3 sm:space-y-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-dark-100)]">
             {name}
           </h1>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <InfoPill
               text={`${duration} day plan`}
               image="/assets/icons/calendar.svg"
@@ -114,13 +114,15 @@ export default async function TripDetailPage({
         </header>
 
         {/* Gallery Section */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
           {imageUrls.map((url: string, i: number) => (
             <div
               key={i}
               className={cn(
                 "relative rounded-[var(--radius-20)] overflow-hidden",
-                i === 0 ? "md:col-span-2 md:row-span-2 h-80" : "h-40"
+                i === 0
+                  ? "md:col-span-2 md:row-span-2 h-40 sm:h-60 md:h-80"
+                  : "h-32 sm:h-40"
               )}
             >
               <Image
@@ -136,71 +138,71 @@ export default async function TripDetailPage({
         </section>
 
         {/* Tags Section */}
-        <section className="flex flex-wrap gap-3 mb-2 items-center">
+        <section className="flex flex-wrap gap-1 sm:gap-2 mb-2 items-center">
           {pillItems.map((pill, i) => (
             <Badge
               key={i}
               variant="outline"
-              className={`${pill.bg} text-base font-medium px-4 py-1.5 rounded-[var(--radius-20)]`}
+              className={`${pill.bg} text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3 py-1 rounded-[var(--radius-20)]`}
             >
               {getFirstWord(pill.text)}
             </Badge>
           ))}
 
-          <div className="flex items-center ms-2">
+          <div className="flex items-center ms-1 sm:ms-2">
             {Array(5)
               .fill(null)
               .map((_, i) => (
                 <Star
                   key={i}
-                  className="size-5 fill-yellow-400 text-yellow-400"
+                  className="size-3 sm:size-4 md:size-5 fill-yellow-400 text-yellow-400"
                 />
               ))}
-            <Badge className="ml-2 bg-yellow-50 text-yellow-700 font-bold">
+            <Badge className="ms-1 sm:ms-2 bg-yellow-50 text-yellow-700 font-bold text-xs sm:text-sm">
               4.9/5
             </Badge>
           </div>
         </section>
 
         {/* Price Section */}
-        <div className="bg-[var(--color-primary-50)] p-4 rounded-[var(--radius-20)] my-4">
-          <h2 className="text-3xl font-bold text-[var(--color-primary-500)]">
+        <div className="bg-[var(--color-primary-50)] p-3 sm:p-4 rounded-[var(--radius-20)] my-2 sm:my-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--color-primary-500)]">
             {estimatedPrice}
           </h2>
-          <p className="text-[var(--color-primary-100)]">
+          <p className="text-xs sm:text-sm md:text-base text-[var(--color-primary-100)]">
             Estimated total price for this trip
           </p>
         </div>
 
         {/* Description */}
-        <p className="text-lg text-[var(--color-gray-100)] leading-relaxed">
+        <p className="text-sm sm:text-base md:text-lg text-[var(--color-gray-100)] leading-relaxed">
           {description}
         </p>
 
         {/* Itinerary Section */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-bold text-[var(--color-dark-100)]">
+        <section className="space-y-6 mt-6 sm:mt-8">
+          <h2 className="text-xl sm:text-2xl md:text-2xl font-bold text-[var(--color-dark-100)]">
             Daily Itinerary
           </h2>
           {itinerary?.map((dayPlan, i: number) => (
             <div
               key={i}
-              className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-6"
+              className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-4 sm:p-6"
             >
-              <h3 className="text-xl font-semibold mb-4">
-                <span className="bg-[var(--color-primary-50)] text-[var(--color-primary-500)] px-3 py-1 rounded-full mr-3">
+              <h3 className="text-base sm:text-medium md:text-xl font-semibold mb-3 sm:mb-4">
+                <span className="bg-[var(--color-primary-50)] text-[var(--color-primary-500)] px-2 sm:px-3 py-1 rounded-full mr-2 sm:mr-3">
                   Day {dayPlan.day}
                 </span>
                 {dayPlan.location}
               </h3>
-              <ul className="space-y-4">
+              <ul className="space-y-3 sm:space-y-4">
                 {dayPlan.activities.map((activity, j) => (
-                  <li key={j} className="flex items-start gap-4">
+                  <li key={j} className="flex items-start gap-2 sm:gap-4">
                     <div>
-                      <p className="font-medium text-[var(--color-dark-100)]">
+                      <p className="text-xs sm:text-sm md:text-base font-medium text-[var(--color-dark-100)]">
                         {activity.time}
                       </p>
-                      <p className="text-[var(--color-gray-100)]">
+                      <p className="text-xs sm:text-sm md:text-base text-[var(--color-gray-100)]">
                         {activity.description}
                       </p>
                     </div>
@@ -212,23 +214,23 @@ export default async function TripDetailPage({
         </section>
 
         {/* Best Time & Weather Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-6">
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Calendar className="text-[var(--color-primary-500)]" size={20} />
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-4 sm:p-6 my-3 sm:my-4">
+            <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-1 sm:gap-2">
+              <Calendar className="text-[var(--color-primary-500)] size-4 sm:size-5" />
               Best Time To Visit
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               {bestTimeToVisit?.map((item, i) => {
                 const [season, ...descriptionParts] = item.split(":");
                 const description = descriptionParts.join(":");
                 return (
-                  <li key={i} className="flex items-start gap-3">
+                  <li key={i} className="flex items-start gap-2 sm:gap-3">
                     <div>
-                      <p className="font-medium text-[var(--color-dark-100)]">
+                      <p className="font-medium text-[var(--color-dark-100)] text-xs sm:text-sm">
                         {season.trim()}
                       </p>
-                      <p className="text-[var(--color-gray-100)]">
+                      <p className="text-[var(--color-gray-100)] text-xs sm:text-sm">
                         {description.trim()}
                       </p>
                     </div>
@@ -238,22 +240,22 @@ export default async function TripDetailPage({
             </ul>
           </div>
 
-          <div className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-6">
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <CloudSun className="text-[var(--color-primary-500)]" size={20} />
+          <div className="bg-white rounded-[var(--radius-20)] shadow-[var(--shadow-300)] p-4 sm:p-6">
+            <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-1 sm:gap-2">
+              <CloudSun className="text-[var(--color-primary-500)] size-4 sm:size-5" />
               Weather Information
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               {weatherInfo?.map((item, i) => {
                 const [season, ...tempParts] = item.split(":");
                 const temp = tempParts.join(":");
                 return (
-                  <li key={i} className="flex items-start gap-3">
+                  <li key={i} className="flex items-start gap-2 sm:gap-3">
                     <div>
-                      <p className="font-medium text-[var(--color-dark-100)]">
+                      <p className="font-medium text-[var(--color-dark-100)] text-xs sm:text-sm">
                         {season.trim()}
                       </p>
-                      <p className="text-[var(--color-gray-100)]">
+                      <p className="text-[var(--color-gray-100)] text-xs sm:text-sm">
                         {temp.trim()}
                       </p>
                     </div>
@@ -266,11 +268,11 @@ export default async function TripDetailPage({
       </section>
 
       {/* Popular Trips Section */}
-      <section className="mt-16 space-y-6">
-        <h2 className="text-2xl font-bold text-[var(--color-dark-100)]">
+      <section className="mt-6 sm:mt-8 space-y-4 sm:space-y-6">
+        <h2 className="text-xl sm:text-2xl md:text-2xl font-bold text-[var(--color-dark-100)]">
           Popular Trips
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {allTripsData.map((trip) => (
             <TripCard
               key={trip.id}

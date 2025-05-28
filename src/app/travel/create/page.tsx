@@ -130,14 +130,14 @@ const CreateTripPage = () => {
   };
 
   return (
-    <main className="flex flex-col my-10 wrapper">
-      <div className="flex items-center gap-4 mb-4">
+    <main className="flex flex-col my-6 sm:my-10 wrapper">
+      <div className="flex items-center gap-2 sm:gap-4 mb-2 sm:mb-4">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[var(--color-gray-100)] hover:text-[var(--color-dark-100)] transition-colors"
+          className="flex items-center gap-1 sm:gap-2 text-[var(--color-gray-100)] hover:text-[var(--color-dark-100)] transition-colors"
         >
-          <ArrowLeft className="size-5" />
-          <span className="text-sm font-medium">Back</span>
+          <ArrowLeft className="size-4 sm:size-5" />
+          <span className="text-xs sm:text-sm font-medium">Back</span>
         </Link>
       </div>
       <Header
@@ -145,13 +145,16 @@ const CreateTripPage = () => {
         description="View and edit AI Generated travel plans"
       />
 
-      <section className="wrapper-md mt-4">
-        <form onSubmit={handleSubmit} className="trip-form">
+      <section className="wrapper-md mt-2 sm:mt-4">
+        <form
+          onSubmit={handleSubmit}
+          className="trip-form space-y-4 sm:space-y-6"
+        >
           {/* Form fields */}
           <div>
             <label
               htmlFor="country"
-              className="p-16-semibold text-[var(--color-dark-100)]"
+              className="p-16-semibold text-[var(--color-dark-100)] text-sm sm:text-base"
             >
               Country
             </label>
@@ -160,14 +163,14 @@ const CreateTripPage = () => {
               dataSource={countryData}
               placeholder="Select a country..."
               onChange={(value) => handleChange("country", value)}
-              className="mt-2"
+              className="mt-1 sm:mt-2"
             />
           </div>
 
           <div>
             <label
               htmlFor="duration"
-              className="p-16-semibold text-[var(--color-dark-100)]"
+              className="p-16-semibold text-[var(--color-dark-100)] text-sm sm:text-base"
             >
               Duration
             </label>
@@ -178,7 +181,7 @@ const CreateTripPage = () => {
               min={1}
               max={10}
               placeholder="Enter a number of days"
-              className="form-input mt-2"
+              className="form-input mt-1 sm:mt-2 w-full"
               onChange={(e) => handleChange("duration", Number(e.target.value))}
             />
           </div>
@@ -187,7 +190,7 @@ const CreateTripPage = () => {
             <div key={key}>
               <label
                 htmlFor={key}
-                className="p-16-semibold text-[var(--color-dark-100)]"
+                className="p-16-semibold text-[var(--color-dark-100)] text-sm sm:text-base"
               >
                 {formatKey(key)}
               </label>
@@ -201,48 +204,48 @@ const CreateTripPage = () => {
                 onChange={(value) =>
                   handleChange(key as keyof TripFormData, value)
                 }
-                className="mt-2"
+                className="mt-1 sm:mt-2"
               />
             </div>
           ))}
 
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <label
               htmlFor="location"
-              className="p-16-semibold text-[var(--color-dark-100)]"
+              className="p-16-semibold text-[var(--color-dark-100)] text-sm sm:text-base"
             >
               Location on the world map
             </label>
-            <div className="mt-2 w-full rounded-[var(--radius-20)] p-0">
+            <div className="mt-1 sm:mt-2 w-full rounded-[var(--radius-20)] overflow-hidden">
               <WorldMap mapData={mapData} />
             </div>
           </div>
 
-          <div className="bg-[var(--color-gray-200)] h-px w-full mt-6" />
+          <div className="bg-[var(--color-gray-200)] h-px w-full mt-4 sm:mt-6" />
 
           {error && (
-            <div className="error text-[var(--color-red-500)] p-2 mt-2">
+            <div className="error text-[var(--color-red-500)] p-2 mt-2 text-sm sm:text-base">
               <p>{error}</p>
             </div>
           )}
 
-          <footer className="w-full mt-6">
+          <footer className="w-full mt-4 sm:mt-6">
             <button
               disabled={loading}
               type="submit"
-              className="button-class h-12 w-full flex items-center justify-center cursor-pointer"
+              className="button-class h-10 sm:h-12 w-full flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
                 <Ellipsis
-                  className="animate-spin size-5 text-white"
+                  className="animate-spin size-4 sm:size-5 text-white"
                   style={{
                     animation: "spin 1.5s linear infinite",
                   }}
                 />
               ) : (
-                <Sparkles className="size-5 text-white" />
+                <Sparkles className="size-4 sm:size-5 text-white" />
               )}
-              <span className="p-16-semibold text-white ml-2">
+              <span className="p-16-semibold text-white text-sm sm:text-base ml-1 sm:ml-2">
                 {loading ? "Generating..." : "Generate Trip"}
               </span>
             </button>

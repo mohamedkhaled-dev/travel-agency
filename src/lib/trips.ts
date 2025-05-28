@@ -73,3 +73,25 @@ export const getHandpickedTrips = async (limit: number, offset: number) => {
     };
   }
 };
+
+export async function getTripsByUserId(userId: string) {
+  const sessionClient = await createSessionClient();
+  if (!sessionClient) return { trips: [], total: 0 };
+
+  try {
+    const { database } = sessionClient;
+    const response = await database.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_TRIPS_COLLECTION_ID!,
+      [Query.equal("userId", userId)]
+    );
+
+    return {
+      trips: response.documents,
+      total: response.total,
+    };
+  } catch (e) {
+    console.error(`Error fetching trips for userId ${userId}:`, e);
+    return { trips: [], total: 0 };
+  }
+}
