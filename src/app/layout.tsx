@@ -39,6 +39,10 @@ export default function RootLayout({
         position="top-right"
         richColors
         toastOptions={{
+          style: {
+            top: "7rem",
+            zIndex: 99,
+          },
           classNames: {
             toast: "!text-primary-500",
             description: "!text-gray-100",
