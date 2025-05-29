@@ -1,16 +1,8 @@
 "use client";
 
-import { CreateTripForm, Header, SkeletonForm } from "@/components";
-import { useCreateTrip } from "@/hooks/useCreateTrip";
+import { CreateTripForm, Header } from "@/components";
 
 export default function DashboardCreateTripPage() {
-  const { countriesLoading } = useCreateTrip({
-    successRedirectPath: (tripId) => `/dashboard/trips/${tripId}`,
-  });
-
-  if (countriesLoading) {
-    return <SkeletonForm />;
-  }
   return (
     <main className="flex flex-col pb-6 sm:pb-10 wrapper">
       <Header
