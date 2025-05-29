@@ -17,10 +17,9 @@ const CreateTripForm = ({ successRedirectPath }: CreateTripFormProps) => {
     mapData,
     error,
     loading,
-    countriesLoading,
+
     handleSubmit,
     handleChange,
-    formData,
   } = useCreateTrip({ successRedirectPath });
 
   return (
@@ -100,8 +99,7 @@ const CreateTripForm = ({ successRedirectPath }: CreateTripFormProps) => {
             Location on the world map
           </label>
           <div className="mt-1 sm:mt-2 w-full rounded-[var(--radius-20)] overflow-hidden">
-            {mapData[0].coordinates.length > 0 ||
-              (!formData.country && <WorldMap mapData={mapData} />)}
+            <WorldMap mapData={mapData} />
           </div>
         </div>
 
@@ -117,7 +115,7 @@ const CreateTripForm = ({ successRedirectPath }: CreateTripFormProps) => {
         {/* Submit Button */}
         <footer className="w-full mt-4 sm:mt-6">
           <button
-            disabled={loading || countriesLoading}
+            disabled={loading}
             type="submit"
             className="button-class h-10 sm:h-12 w-full flex items-center justify-center gap-2 cursor-pointer"
           >
