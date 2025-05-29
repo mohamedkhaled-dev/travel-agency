@@ -1,4 +1,5 @@
 "use client";
+
 import { cn, getFirstWord } from "@/lib/utils";
 import { TripCardProps } from "@/types";
 import { MapPin } from "lucide-react";
@@ -14,8 +15,9 @@ const TripCard = ({
   imageUrl,
   tags,
   price,
-}: TripCardProps) => {
+}: TripCardProps & { loading?: boolean }) => {
   const pathname = usePathname();
+
   return (
     <Link
       className="trip-card rounded-[var(--radius-20)] overflow-hidden shadow-[var(--shadow-200)] hover:shadow-[var(--shadow-300)] transition-all"

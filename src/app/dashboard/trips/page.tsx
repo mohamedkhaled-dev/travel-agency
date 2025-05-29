@@ -1,16 +1,16 @@
 export const dynamic = "force-dynamic";
 import { Header, TripCard } from "@/components";
-import { getAllTrips } from "@/lib/trips";
-import { parseTripData } from "@/lib/utils";
-import { Trip } from "@/types";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
-  PaginationPrevious,
   PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
+import { getAllTrips } from "@/lib/trips";
+import { parseTripData } from "@/lib/utils";
+import { Trip } from "@/types";
 
 const TripsPage = async ({
   searchParams,

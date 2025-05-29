@@ -40,7 +40,7 @@ export default function RootLayout({
         richColors
         toastOptions={{
           style: {
-            top: "7rem",
+            top: "8rem",
             zIndex: 99,
           },
           classNames: {

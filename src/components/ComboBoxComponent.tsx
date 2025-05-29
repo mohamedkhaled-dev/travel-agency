@@ -59,7 +59,7 @@ const ComboBoxComponent = ({
     <Select open={open} onOpenChange={setOpen} onValueChange={handleSelect}>
       <SelectTrigger
         className={cn(
-          "combo-box flex items-center cursor-pointer w-full",
+          "combo-box flex items-center cursor-pointer w-full ",
           className
         )}
         onClick={() => setOpen((prev) => !prev)}
@@ -82,7 +82,7 @@ const ComboBoxComponent = ({
                 </span>
               </div>
             ) : (
-              <span className="p-16-semibold text-[var(--color-gray-100)] text-sm sm:text-base">
+              <span className="p-16-semibold text-[var(--color-gray-100)] text-sm sm:text-base ">
                 {placeholder || `Select ${id}...`}
               </span>
             )

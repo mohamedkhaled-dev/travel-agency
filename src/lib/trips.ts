@@ -1,5 +1,7 @@
 import { createSessionClient } from "@/lib/server/appwrite";
+import { Trip } from "@/types";
 import { Client, Query, Databases } from "node-appwrite";
+import { parseTripData } from "./utils";
 
 export const getAllTrips = async (limit: number, offset: number) => {
   const sessionClient = await createSessionClient();
@@ -94,4 +96,40 @@ export async function getTripsByUserId(userId: string) {
     console.error(`Error fetching trips for userId ${userId}:`, e);
     return { trips: [], total: 0 };
   }
+}
+
+export async function fetchTripDetails(id: string) {
+  if (!id) throw new Error("Trip ID is required!");
+
+  let tripData: Trip | null = null;
+  let allTripsData: Trip[] = [];
+  let imageUrls: string[] = [];
+
+  try {
+    const [trip, allTripsResponse] = await Promise.all([
+      getTripById(id),
+      getAllTrips(4, 0),
+    ]);
+    if (trip) {
+      tripData = parseTripData(trip.tripDetails) as Trip;
+      imageUrls = trip.imageUrls || [];
+    }
+
+    if (
+      allTripsResponse?.allTrips &&
+      Array.isArray(allTripsResponse.allTrips)
+    ) {
+      allTripsData = allTripsResponse.allTrips.map(
+        ({ $id, tripDetails, imageUrls }) => ({
+          id: $id,
+          ...parseTripData(tripDetails),
+          imageUrls: imageUrls || [],
+        })
+      ) as Trip[];
+    }
+  } catch (error) {
+    console.error("Error fetching or parsing trip data:", error);
+  }
+
+  return { tripData, allTripsData, imageUrls };
 }
