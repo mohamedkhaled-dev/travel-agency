@@ -1,19 +1,10 @@
 "use client";
 
+import { CreateTripForm, Header } from "@/components";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { CreateTripForm, Header, SkeletonForm } from "@/components";
-import { useCreateTrip } from "@/hooks/useCreateTrip";
 
 export default function PublicCreateTripPage() {
-  const { countriesLoading } = useCreateTrip({
-    successRedirectPath: (tripId) => `/travel/${tripId}`,
-  });
-
-  if (countriesLoading) {
-    return <SkeletonForm />;
-  }
-
   return (
     <main className="flex flex-col my-6 sm:my-10 wrapper">
       <div className="flex items-center gap-2 sm:gap-4 mb-2 sm:mb-4">
